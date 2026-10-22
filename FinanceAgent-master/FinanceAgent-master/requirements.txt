@@ -1,0 +1,7 @@
+exa_py==1.13.1
+langchain_exa==0.3.0
+pandas==2.2.3
+python-dotenv==1.1.0
+python_coinmarketcap==0.6
+pandas-ta==0.3.14b0
+numpy==1.24.4
