@@ -1,0 +1,6 @@
+{
+  "runs": [
+    {"id": "baseline", "title": "Synthetic baseline mechanics", "kind": "BACKTEST", "path": "baseline/report.json"},
+    {"id": "shadow", "title": "Recorded virtual session", "kind": "SHADOW", "path": "shadow/session.sqlite"}
+  ]
+}

@@ -1,0 +1,156 @@
+کندل‌ها | Wallex API Documentation
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://developers.wallex.ir/docs/basic-services-candles","name":"کندل‌ها","position":1}]}
+
+
+
+
+
+
+!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme-5ba")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{for(var[t,e]of new URLSearchParams(window.location.search).entries())if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()
+پرش به مطلب اصلی
+مستندات API
+پیش‌گفتار
+ساخت API-Key
+سرویس‌های پایه
+مقدمه
+کیف‌پول حساب اصلی
+کندل‌ها
+مارکت‌ها
+عمق بازار
+لیست معاملات
+کارمزد حساب کاربری
+اضافه کردن شماره شبا بانکی
+دریافت شماره‌های شبا بانکی
+دریافت کارت‌های بانکی
+ثبت درخواست برداشت تومان
+دریافت آدرس کیف‌پول رمزارز
+مستندات سرویس
+معامله اسپات
+معامله تعهدی
+اعتبار معاملاتی
+معامله آنی
+وب‌سوکت
+سرویس‌های پایه
+کندل‌ها
+مطالب این صفحه
+کندل ها (آمار OHLC بازارها)
+​
+
+
+شما میتوانید اطلاعات کامل کندل بازارهای والکس را با استفاده از API زیر مشاهده کنید.
+شما میتوانید نتیجه این API را براساس موارد مد نظر خود ، فیلتر کنید.
+توجه داشته باشید که تمامی فیلترها باید به عنوان Query-parameters ارسال شود.
+
+
+GET /v1/udf/history
+
+
+توضیحات Query-parameters
+​
+
+
+برای فراخوانی این API میتوانید پارارمترهای مختلف خود را به عنوان Query-parameters در مسیر API ارسال کنید :
+
+
+Parameter
+Example
+Data Type
+Required / Optional
+Valid Values
+Definition
+symbol
+"BTCUSDT"
+String
+Optional
+—
+نام نماد و پایه بازاری که قصد دارید در آن معامله صورت بگیرد.
+resolution
+15
+String
+Optional
+1, 15, 60, 240, 480, 720, 1D, 2D, 3D
+پارامتر resolution تعیین می‌کند که هر کندل (Candle) در داده‌های نموداری چه بازه زمانی‌ای را پوشش دهد. به‌عبارتی مشخص می‌کند که Response-Body در چه فاصله‌های زمانی دسته‌بندی شده‌اند. به عنوان مثال، اگر مقدار resolution برابر با 60 باشد، به این معناست که هر کندل مربوط به یک ساعت از معاملات است.
+from
+"1733425200"
+timestamp
+Optional
+—
+شروع بازه زمانی
+to
+"1733428800"
+timestamp
+Optional
+—
+پایان بازه زمانی
+
+
+توضیحات Response-Body
+​
+
+
+دقت داشته باشید هر کدام از موارد مربوط در Response-Body یک Array میباشد.
+در هر آبجکت که از یک Array تشکیل شده است.
+
+
+{
+  
+"s"
+:
+ 
+"وضعیت موفقیت آمیز بودن درخواست"
+,
+  
+"t"
+:
+ 
+[
+"تایم استمپ براساس بازه های رزولوشن در بازه زمانی تعریف شده"
+]
+,
+  
+"c"
+:
+ 
+[
+"آخرین قیمت کندل ها"
+]
+,
+  
+"o"
+:
+ 
+[
+"اولین قیمت کندل ها"
+]
+,
+  
+"h"
+:
+ 
+[
+"بالاترین قیمت کندل‌ها"
+]
+,
+  
+"l"
+:
+ 
+[
+"پایین ترین قیمت کندل‌ها"
+]
+,
+  
+"v"
+:
+ 
+[
+"حجم معاملات کندل‌ها"
+]
+}
+قبلی
+کیف‌پول حساب اصلی
+بعدی
+مارکت‌ها
+کندل ها (آمار OHLC بازارها)
+توضیحات Query-parameters
+توضیحات Response-Body

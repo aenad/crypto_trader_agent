@@ -1,0 +1,408 @@
+{
+  "result": {
+    "latestTrades": [
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0013580000000000",
+        "price": "81456.3600000000000000",
+        "sum": "110.6177368800000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T20:09:53Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0006400000000000",
+        "price": "81456.3600000000000000",
+        "sum": "52.1320704000000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T20:07:56Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0181200000000000",
+        "price": "81456.3600000000000000",
+        "sum": "1475.9892432000000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T20:07:01Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0001122700000000",
+        "price": "81479.1100000000000000",
+        "sum": "9.1476596797000000",
+        "isBuyOrder": false,
+        "timestamp": "2026-10-22T20:04:25Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0000017300000000",
+        "price": "81495.7500000000000000",
+        "sum": "0.1409876475000000",
+        "isBuyOrder": false,
+        "timestamp": "2026-10-22T20:02:40Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0000085000000000",
+        "price": "81456.3600000000000000",
+        "sum": "0.6923790600000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T20:01:58Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0019463100000000",
+        "price": "81456.3700000000000000",
+        "sum": "158.5393474947000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T20:01:19Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0000135000000000",
+        "price": "81456.3600000000000000",
+        "sum": "1.0996608600000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T20:01:19Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0007435700000000",
+        "price": "81456.3600000000000000",
+        "sum": "60.5685056052000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T20:01:19Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0000017400000000",
+        "price": "81456.3600000000000000",
+        "sum": "0.1417340664000000",
+        "isBuyOrder": false,
+        "timestamp": "2026-10-22T19:47:34Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0011499000000000",
+        "price": "81431.7800000000000000",
+        "sum": "93.6384038220000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:47:13Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:47:12Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:47:12Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:47:11Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:47:10Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:47:10Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:47:09Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:47:08Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:47:08Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:47:07Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:47:06Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:47:06Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:47:06Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:47:05Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:47:05Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:47:03Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:47:03Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:47:03Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:47:02Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:47:00Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0021100000000000",
+        "price": "81431.7800000000000000",
+        "sum": "171.8210558000000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:46:59Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:46:58Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:46:57Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045194300000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0252294854000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:46:57Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045196000000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0390728880000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:46:54Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045196000000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0390728880000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:46:52Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045196000000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0390728880000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:46:52Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045196000000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0390728880000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:46:52Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045196000000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0390728880000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:46:52Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045196000000000",
+        "price": "81431.7800000000000000",
+        "sum": "368.0390728880000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:46:51Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0055624300000000",
+        "price": "81431.8000000000000000",
+        "sum": "452.9586872740000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:46:50Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045196000000000",
+        "price": "81431.8000000000000000",
+        "sum": "368.0391632800000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:46:49Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045196000000000",
+        "price": "81431.8000000000000000",
+        "sum": "368.0391632800000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:46:48Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045196000000000",
+        "price": "81431.8000000000000000",
+        "sum": "368.0391632800000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:46:48Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045196000000000",
+        "price": "81431.8000000000000000",
+        "sum": "368.0391632800000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:46:48Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045196000000000",
+        "price": "81431.8000000000000000",
+        "sum": "368.0391632800000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:46:46Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045196000000000",
+        "price": "81431.8000000000000000",
+        "sum": "368.0391632800000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:46:46Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045197600000000",
+        "price": "81431.8000000000000000",
+        "sum": "368.0521923680000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:46:45Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045197600000000",
+        "price": "81431.8000000000000000",
+        "sum": "368.0521923680000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:46:44Z"
+      },
+      {
+        "symbol": "BTCUSDT",
+        "quantity": "0.0045199300000000",
+        "price": "81431.8000000000000000",
+        "sum": "368.0660357740000000",
+        "isBuyOrder": true,
+        "timestamp": "2026-10-22T19:46:43Z"
+      }
+    ]
+  },
+  "message": "عملیات موفقیت‌آمیز بود.",
+  "success": true
+}

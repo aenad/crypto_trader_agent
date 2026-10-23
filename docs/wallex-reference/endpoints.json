@@ -1,0 +1,219 @@
+{
+  "GET /v1/account/fee": [
+    "https://developers.wallex.ir/docs/basic-services-account-fee",
+    "https://developers.wallex.ir/docs/generated/get-account-fees"
+  ],
+  "POST /v1/account/ibans": [
+    "https://developers.wallex.ir/docs/basic-services-add-iban",
+    "https://developers.wallex.ir/docs/generated/add-account-iban"
+  ],
+  "GET /v1/udf/history": [
+    "https://developers.wallex.ir/docs/basic-services-candles",
+    "https://developers.wallex.ir/docs/generated/candle-history",
+    "https://developers.wallex.ir/docs/socket-candle"
+  ],
+  "GET /v1/account/card-numbers": [
+    "https://developers.wallex.ir/docs/basic-services-card-numbers",
+    "https://developers.wallex.ir/docs/generated/get-account-card-numbers"
+  ],
+  "GET /v1/account/wallets/{symbol}": [
+    "https://developers.wallex.ir/docs/basic-services-coin-wallets"
+  ],
+  "GET /v1/depth": [
+    "https://developers.wallex.ir/docs/basic-services-depth",
+    "https://developers.wallex.ir/docs/generated/get-market-depth"
+  ],
+  "GET /v1/account/ibans": [
+    "https://developers.wallex.ir/docs/basic-services-iban-numbers",
+    "https://developers.wallex.ir/docs/generated/get-account-ibans"
+  ],
+  "GET /v1/trades": [
+    "https://developers.wallex.ir/docs/basic-services-latest-trades",
+    "https://developers.wallex.ir/docs/generated/get-latest-trades"
+  ],
+  "GET /hector/web/v1/markets": [
+    "https://developers.wallex.ir/docs/basic-services-markets",
+    "https://developers.wallex.ir/docs/generated/get-markets",
+    "https://developers.wallex.ir/docs/spot-active-markets"
+  ],
+  "POST /v1/account/money-withdrawal": [
+    "https://developers.wallex.ir/docs/basic-services-withdraw-toman",
+    "https://developers.wallex.ir/docs/generated/create-money-withdrawal"
+  ],
+  "POST /v1/prop/user/packages": [
+    "https://developers.wallex.ir/docs/generated/activate-user-package",
+    "https://developers.wallex.ir/docs/trade-credit-activate-sub-account"
+  ],
+  "GET /sub-accounts": [
+    "https://developers.wallex.ir/docs/generated/active-sub-accounts-list",
+    "https://developers.wallex.ir/docs/trade-credit-active-sub-account-list"
+  ],
+  "GET /v1/prop/user/packages/active": [
+    "https://developers.wallex.ir/docs/generated/active-user-package-details"
+  ],
+  "GET /v1/prop/user/packages/overview": [
+    "https://developers.wallex.ir/docs/generated/active-user-packages-overview"
+  ],
+  "POST /margin-trade/v1/public/loan": [
+    "https://developers.wallex.ir/docs/generated/calculate-loan",
+    "https://developers.wallex.ir/docs/margin-calculate-loan"
+  ],
+  "DELETE /v1/prop/user/packages": [
+    "https://developers.wallex.ir/docs/generated/cancel-user-package",
+    "https://developers.wallex.ir/docs/trade-credit-close-sub-account"
+  ],
+  "GET /v1/prop/user/packages/:id/check-availability": [
+    "https://developers.wallex.ir/docs/generated/check-prop-package-availability"
+  ],
+  "GET /v1/prop/user/packages/{id}/check-availability": [
+    "https://developers.wallex.ir/docs/generated/check-prop-package-availability",
+    "https://developers.wallex.ir/docs/trade-credit-condition-check"
+  ],
+  "PATCH /margin-trade/v1/positions/:id/close": [
+    "https://developers.wallex.ir/docs/generated/close-position-id"
+  ],
+  "POST /sub-accounts/transfers": [
+    "https://developers.wallex.ir/docs/generated/create-transfer-to-sub-account"
+  ],
+  "DELETE /v1/account/orders": [
+    "https://developers.wallex.ir/docs/generated/delete-account-orders"
+  ],
+  "DELETE /v1/account/orders/:client_id": [
+    "https://developers.wallex.ir/docs/generated/delete-orders-client"
+  ],
+  "POST /margin-trade/v1/public/dry-run": [
+    "https://developers.wallex.ir/docs/generated/detailed-information",
+    "https://developers.wallex.ir/docs/margin-dry-run"
+  ],
+  "DELETE /v1/prop/user/packages/connect-to-wallet": [
+    "https://developers.wallex.ir/docs/generated/disable-connect-to-wallet",
+    "https://developers.wallex.ir/docs/trade-credit-disconnect-wallet"
+  ],
+  "PATCH /margin-trade/v1/positions/:id/collateral": [
+    "https://developers.wallex.ir/docs/generated/edit-colateral"
+  ],
+  "PATCH /margin-trade/v1/positions/:id/sltp": [
+    "https://developers.wallex.ir/docs/generated/edit-sltp"
+  ],
+  "POST /v1/prop/user/packages/connect-to-wallet": [
+    "https://developers.wallex.ir/docs/generated/enable-connect-to-wallet",
+    "https://developers.wallex.ir/docs/trade-credit-connect-wallet"
+  ],
+  "POST /v1/prop/user/packages/enable-renew": [
+    "https://developers.wallex.ir/docs/generated/enable-user-package-renew"
+  ],
+  "GET /v1/account/balances": [
+    "https://developers.wallex.ir/docs/generated/get-account-balances"
+  ],
+  "GET /v1/account/wallets/:symbol": [
+    "https://developers.wallex.ir/docs/generated/get-account-wallet-by-symbol"
+  ],
+  "GET /depth/all": [
+    "https://developers.wallex.ir/docs/generated/get-depth"
+  ],
+  "GET /margin-trade/v1/user/levels": [
+    "https://developers.wallex.ir/docs/generated/get-levels"
+  ],
+  "GET /margin-trade/v1/user/levels/:market": [
+    "https://developers.wallex.ir/docs/generated/get-levels-market"
+  ],
+  "GET /v1/account/openOrders": [
+    "https://developers.wallex.ir/docs/generated/get-open-order",
+    "https://developers.wallex.ir/docs/spot-active-orders"
+  ],
+  "GET /margin-trade/v1/orders": [
+    "https://developers.wallex.ir/docs/generated/get-orders"
+  ],
+  "GET /v1/account/orders/:client_id": [
+    "https://developers.wallex.ir/docs/generated/get-orders-client"
+  ],
+  "GET /v1/otc/markets": [
+    "https://developers.wallex.ir/docs/generated/get-otc-markets",
+    "https://developers.wallex.ir/docs/otc-markets"
+  ],
+  "GET /v1/account/otc/price": [
+    "https://developers.wallex.ir/docs/generated/get-otc-price",
+    "https://developers.wallex.ir/docs/otc-price"
+  ],
+  "GET /margin-trade/v1/user/pnl": [
+    "https://developers.wallex.ir/docs/generated/get-pnl"
+  ],
+  "GET /margin-trade/v1/positions/:id": [
+    "https://developers.wallex.ir/docs/generated/get-position-id"
+  ],
+  "GET /margin-trade/v1/positions": [
+    "https://developers.wallex.ir/docs/generated/get-positions",
+    "https://developers.wallex.ir/docs/margin-get-positions"
+  ],
+  "POST /margin-trade/v1/positions": [
+    "https://developers.wallex.ir/docs/generated/open-position",
+    "https://developers.wallex.ir/docs/margin-open-position"
+  ],
+  "POST /v1/account/easy-trade/orders": [
+    "https://developers.wallex.ir/docs/generated/place-easy-trade-order",
+    "https://developers.wallex.ir/docs/otc-create-order"
+  ],
+  "POST /v1/account/orders": [
+    "https://developers.wallex.ir/docs/generated/post-account-orders",
+    "https://developers.wallex.ir/docs/spot-create-order"
+  ],
+  "POST /margin-trade/v1/positions/:id/profit": [
+    "https://developers.wallex.ir/docs/generated/profit-position-id"
+  ],
+  "GET /v1/prop/packages/:id": [
+    "https://developers.wallex.ir/docs/generated/prop-package-details"
+  ],
+  "GET /v1/prop/packages": [
+    "https://developers.wallex.ir/docs/generated/prop-packages-list",
+    "https://developers.wallex.ir/docs/trade-credit-active-packages"
+  ],
+  "GET /margin-trade/v1/public/ratio/:market": [
+    "https://developers.wallex.ir/docs/generated/public-ratio"
+  ],
+  "GET /v1/account/balances-detail": [
+    "https://developers.wallex.ir/docs/generated/sub-account-balances-details"
+  ],
+  "GET /sub-accounts/transfers": [
+    "https://developers.wallex.ir/docs/generated/sub-account-transfer"
+  ],
+  "GET /v1/prop/user/packages/history/:subAccountClientId": [
+    "https://developers.wallex.ir/docs/generated/user-package-history-details"
+  ],
+  "GET /v1/prop/user/packages/history/{subAccountClientId}": [
+    "https://developers.wallex.ir/docs/generated/user-package-history-details"
+  ],
+  "GET /v1/prop/user/packages/history": [
+    "https://developers.wallex.ir/docs/generated/user-package-history-list",
+    "https://developers.wallex.ir/docs/trade-credit-sub-account-history"
+  ],
+  "GET /margin-trade/v1/public/markets": [
+    "https://developers.wallex.ir/docs/margin-active-markets"
+  ],
+  "PATCH /margin-trade/v1/positions/{id}/close": [
+    "https://developers.wallex.ir/docs/margin-close-position"
+  ],
+  "PATCH /margin-trade/v1/positions/{id}/collateral": [
+    "https://developers.wallex.ir/docs/margin-edit-collateral"
+  ],
+  "PATCH /margin-trade/v1/positions/{id}/sltp": [
+    "https://developers.wallex.ir/docs/margin-sltp-edit"
+  ],
+  "GET /v1/all-fairPrice": [
+    "https://developers.wallex.ir/docs/socket-fair-price"
+  ],
+  "POST /v3/auth/token/refresh": [
+    "https://developers.wallex.ir/docs/socket-token"
+  ],
+  "DELETE /v1/account/orders/{client_id}": [
+    "https://developers.wallex.ir/docs/spot-cancel-order"
+  ],
+  "GET /v1/account/orders": [
+    "https://developers.wallex.ir/docs/spot-order-list"
+  ],
+  "GET /v1/account/orders/{client_id}": [
+    "https://developers.wallex.ir/docs/spot-single-order-detail"
+  ],
+  "GET /v1/prop/packages/{id}": [
+    "https://developers.wallex.ir/docs/trade-credit-package-details"
+  ]
+}

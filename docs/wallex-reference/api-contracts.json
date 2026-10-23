@@ -1,0 +1,1373 @@
+[
+  {
+    "method": "GET",
+    "path": "/v1/account/wallets/{symbol}",
+    "schema_source": "https://developers.wallex.ir/assets/files/basic-services-89626420b5f06e4d7a2dc9206cdeb192.json",
+    "operationId": "getAccountWalletBySymbol",
+    "parameters": [
+      {
+        "name": "symbol",
+        "in": "path",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "network",
+        "in": "query",
+        "required": false,
+        "type": "string"
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/AccountWalletResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "POST",
+    "path": "/v1/account/ibans",
+    "schema_source": "https://developers.wallex.ir/assets/files/basic-services-89626420b5f06e4d7a2dc9206cdeb192.json",
+    "operationId": "addAccountIban",
+    "parameters": [
+      {
+        "in": "body",
+        "name": "body",
+        "required": true,
+        "schema": {
+          "$ref": "#/definitions/AddIbanRequest"
+        }
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/AddIbanResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/v1/account/ibans",
+    "schema_source": "https://developers.wallex.ir/assets/files/basic-services-89626420b5f06e4d7a2dc9206cdeb192.json",
+    "operationId": "getAccountIbans",
+    "parameters": [
+      {
+        "name": "per_page",
+        "in": "query",
+        "required": false,
+        "type": "integer"
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "type": "integer"
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/AccountIbansResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "POST",
+    "path": "/v1/account/money-withdrawal",
+    "schema_source": "https://developers.wallex.ir/assets/files/basic-services-89626420b5f06e4d7a2dc9206cdeb192.json",
+    "operationId": "createMoneyWithdrawal",
+    "parameters": [
+      {
+        "in": "body",
+        "name": "body",
+        "required": true,
+        "schema": {
+          "$ref": "#/definitions/MoneyWithdrawalRequest"
+        }
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "201": {
+        "schema": {
+          "$ref": "#/definitions/MoneyWithdrawalResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/v1/account/card-numbers",
+    "schema_source": "https://developers.wallex.ir/assets/files/basic-services-89626420b5f06e4d7a2dc9206cdeb192.json",
+    "operationId": "getAccountCardNumbers",
+    "parameters": [],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/AccountCardNumbersResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/v1/account/fee",
+    "schema_source": "https://developers.wallex.ir/assets/files/basic-services-89626420b5f06e4d7a2dc9206cdeb192.json",
+    "operationId": "getAccountFees",
+    "parameters": [],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/AccountFeeResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/v1/trades",
+    "schema_source": "https://developers.wallex.ir/assets/files/basic-services-89626420b5f06e4d7a2dc9206cdeb192.json",
+    "operationId": "getLatestTrades",
+    "parameters": [
+      {
+        "name": "symbol",
+        "in": "query",
+        "required": true,
+        "type": "string"
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/LatestTradesResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/hector/web/v1/markets",
+    "schema_source": "https://developers.wallex.ir/assets/files/basic-services-89626420b5f06e4d7a2dc9206cdeb192.json",
+    "operationId": "getMarkets",
+    "parameters": [],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/resources.allMarkets"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/v1/depth",
+    "schema_source": "https://developers.wallex.ir/assets/files/basic-services-89626420b5f06e4d7a2dc9206cdeb192.json",
+    "operationId": "getMarketDepth",
+    "parameters": [
+      {
+        "name": "symbol",
+        "in": "query",
+        "required": true,
+        "type": "string"
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/MarketDepthResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/v1/account/balances",
+    "schema_source": "https://developers.wallex.ir/assets/files/basic-services-89626420b5f06e4d7a2dc9206cdeb192.json",
+    "operationId": "getAccountBalances",
+    "parameters": [],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/AccountBalancesResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/v1/udf/history",
+    "schema_source": "https://developers.wallex.ir/assets/files/basic-services-89626420b5f06e4d7a2dc9206cdeb192.json",
+    "operationId": "candleHistory",
+    "parameters": [
+      {
+        "name": "symbol",
+        "in": "query",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "resolution",
+        "in": "query",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "from",
+        "in": "query",
+        "required": true,
+        "type": "integer",
+        "format": "int64"
+      },
+      {
+        "name": "to",
+        "in": "query",
+        "required": true,
+        "type": "integer",
+        "format": "int64"
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/MarketHistoryResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/margin-trade/v1/orders",
+    "schema_source": "https://developers.wallex.ir/assets/files/margin-c709e1f52cb44387a2e35ffd678c6dfa.json",
+    "operationId": "getOrders",
+    "parameters": [
+      {
+        "type": "boolean",
+        "name": "active",
+        "in": "query"
+      },
+      {
+        "type": "string",
+        "name": "market",
+        "in": "query"
+      },
+      {
+        "type": "string",
+        "name": "position_side",
+        "in": "query"
+      },
+      {
+        "type": "string",
+        "name": "position_id",
+        "in": "query"
+      },
+      {
+        "type": "string",
+        "name": "position_type",
+        "in": "query"
+      },
+      {
+        "type": "string",
+        "name": "side",
+        "in": "query"
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.Order"
+          }
+        }
+      },
+      "408": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      },
+      "500": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/margin-trade/v1/positions",
+    "schema_source": "https://developers.wallex.ir/assets/files/margin-c709e1f52cb44387a2e35ffd678c6dfa.json",
+    "operationId": "getPositions",
+    "parameters": [
+      {
+        "type": "boolean",
+        "name": "active",
+        "in": "query"
+      },
+      {
+        "type": "string",
+        "name": "position_side",
+        "in": "query"
+      },
+      {
+        "type": "string",
+        "name": "market",
+        "in": "query"
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.Position"
+          }
+        }
+      },
+      "408": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      },
+      "500": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "POST",
+    "path": "/margin-trade/v1/positions",
+    "schema_source": "https://developers.wallex.ir/assets/files/margin-c709e1f52cb44387a2e35ffd678c6dfa.json",
+    "operationId": "openPosition",
+    "parameters": [
+      {
+        "name": "position",
+        "in": "body",
+        "required": true,
+        "schema": {
+          "$ref": "#/definitions/dto.OpenRequest"
+        }
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/dto.Position"
+        }
+      },
+      "408": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      },
+      "500": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/margin-trade/v1/positions/{id}",
+    "schema_source": "https://developers.wallex.ir/assets/files/margin-c709e1f52cb44387a2e35ffd678c6dfa.json",
+    "operationId": "getPositionId",
+    "parameters": [
+      {
+        "type": "string",
+        "name": "id",
+        "in": "path",
+        "required": true
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/dto.Position"
+        }
+      },
+      "404": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      },
+      "408": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      },
+      "500": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "PATCH",
+    "path": "/margin-trade/v1/positions/{id}/close",
+    "schema_source": "https://developers.wallex.ir/assets/files/margin-c709e1f52cb44387a2e35ffd678c6dfa.json",
+    "operationId": "closePositionId",
+    "parameters": [
+      {
+        "type": "string",
+        "name": "id",
+        "in": "path",
+        "required": true
+      },
+      {
+        "name": "position",
+        "in": "body",
+        "required": true,
+        "schema": {
+          "$ref": "#/definitions/dto.CloseRequest"
+        }
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/dto.Position"
+        }
+      },
+      "404": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      },
+      "408": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      },
+      "500": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "PATCH",
+    "path": "/margin-trade/v1/positions/{id}/collateral",
+    "schema_source": "https://developers.wallex.ir/assets/files/margin-c709e1f52cb44387a2e35ffd678c6dfa.json",
+    "operationId": "editColateral",
+    "parameters": [
+      {
+        "type": "string",
+        "name": "id",
+        "in": "path",
+        "required": true
+      },
+      {
+        "name": "update",
+        "in": "body",
+        "required": true,
+        "schema": {
+          "$ref": "#/definitions/dto.AddCollateralRequest"
+        }
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/dto.Position"
+        }
+      },
+      "404": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      },
+      "408": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      },
+      "500": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "POST",
+    "path": "/margin-trade/v1/positions/{id}/profit",
+    "schema_source": "https://developers.wallex.ir/assets/files/margin-c709e1f52cb44387a2e35ffd678c6dfa.json",
+    "operationId": "profitPositionID",
+    "parameters": [
+      {
+        "type": "string",
+        "name": "id",
+        "in": "path",
+        "required": true
+      },
+      {
+        "name": "request",
+        "in": "body",
+        "required": true,
+        "schema": {
+          "$ref": "#/definitions/dto.CalculateProfitRequest"
+        }
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/dto.CalculateProfitResponse"
+        }
+      },
+      "404": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      },
+      "408": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      },
+      "500": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "PATCH",
+    "path": "/margin-trade/v1/positions/{id}/sltp",
+    "schema_source": "https://developers.wallex.ir/assets/files/margin-c709e1f52cb44387a2e35ffd678c6dfa.json",
+    "operationId": "editSltp",
+    "parameters": [
+      {
+        "type": "string",
+        "name": "id",
+        "in": "path",
+        "required": true
+      },
+      {
+        "name": "update",
+        "in": "body",
+        "required": true,
+        "schema": {
+          "$ref": "#/definitions/dto.UpdateSLTPRequest"
+        }
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/dto.Position"
+        }
+      },
+      "404": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      },
+      "408": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      },
+      "500": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "POST",
+    "path": "/margin-trade/v1/public/loan",
+    "schema_source": "https://developers.wallex.ir/assets/files/margin-c709e1f52cb44387a2e35ffd678c6dfa.json",
+    "operationId": "calculateLoan",
+    "parameters": [
+      {
+        "name": "request",
+        "in": "body",
+        "required": true,
+        "schema": {
+          "$ref": "#/definitions/dto.CalculateLoanRequest"
+        }
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/dto.CalculateLoanResponse"
+        }
+      },
+      "408": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      },
+      "500": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "POST",
+    "path": "/margin-trade/v1/public/dry-run",
+    "schema_source": "https://developers.wallex.ir/assets/files/margin-c709e1f52cb44387a2e35ffd678c6dfa.json",
+    "operationId": "detailedInformation",
+    "parameters": [
+      {
+        "name": "position",
+        "in": "body",
+        "required": true,
+        "schema": {
+          "$ref": "#/definitions/dto.OpenRequest"
+        }
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/dto.DryRunResponse"
+        }
+      },
+      "408": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      },
+      "500": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/margin-trade/v1/public/markets",
+    "schema_source": "https://developers.wallex.ir/assets/files/margin-c709e1f52cb44387a2e35ffd678c6dfa.json",
+    "operationId": "getMarkets",
+    "parameters": [],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dto.Market"
+          }
+        }
+      },
+      "408": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      },
+      "500": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/margin-trade/v1/public/ratio/{market}",
+    "schema_source": "https://developers.wallex.ir/assets/files/margin-c709e1f52cb44387a2e35ffd678c6dfa.json",
+    "operationId": "publicRatio",
+    "parameters": [
+      {
+        "type": "string",
+        "name": "market",
+        "in": "path",
+        "required": true
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/dto.PositionsRatioResponse"
+        }
+      },
+      "408": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      },
+      "500": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/margin-trade/v1/user/levels",
+    "schema_source": "https://developers.wallex.ir/assets/files/margin-c709e1f52cb44387a2e35ffd678c6dfa.json",
+    "operationId": "?getLevels",
+    "parameters": [],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/dto.GetUserLevelResponse"
+        }
+      },
+      "408": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      },
+      "500": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/margin-trade/v1/user/levels/{market}",
+    "schema_source": "https://developers.wallex.ir/assets/files/margin-c709e1f52cb44387a2e35ffd678c6dfa.json",
+    "operationId": "getLevelsMarket",
+    "parameters": [
+      {
+        "type": "string",
+        "name": "market",
+        "in": "path",
+        "required": true
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/dto.GetUserLevelResponse"
+        }
+      },
+      "408": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      },
+      "500": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/margin-trade/v1/user/pnl",
+    "schema_source": "https://developers.wallex.ir/assets/files/margin-c709e1f52cb44387a2e35ffd678c6dfa.json",
+    "operationId": "getPnl",
+    "parameters": [],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/dto.CalculatePnlResponse"
+        }
+      },
+      "408": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      },
+      "500": {
+        "schema": {
+          "$ref": "#/definitions/dto.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/v1/otc/markets",
+    "schema_source": "https://developers.wallex.ir/assets/files/otc-8e321a32f4509cbf103b3127bf7c9918.json",
+    "operationId": "getOTCMarkets",
+    "parameters": [],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/OtcMarketsResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/v1/account/otc/price",
+    "schema_source": "https://developers.wallex.ir/assets/files/otc-8e321a32f4509cbf103b3127bf7c9918.json",
+    "operationId": "getOtcPrice",
+    "parameters": [
+      {
+        "name": "symbol",
+        "in": "query",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "side",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "enum": [
+          "BUY",
+          "SELL"
+        ]
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/OtcPriceResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "POST",
+    "path": "/v1/account/easy-trade/orders",
+    "schema_source": "https://developers.wallex.ir/assets/files/otc-8e321a32f4509cbf103b3127bf7c9918.json",
+    "operationId": "placeEasyTradeOrder",
+    "parameters": [
+      {
+        "in": "body",
+        "name": "body",
+        "required": true,
+        "schema": {
+          "$ref": "#/definitions/EasyTradeOrderRequest"
+        }
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "201": {
+        "schema": {
+          "$ref": "#/definitions/EasyTradeOrderResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/hector/web/v1/markets",
+    "schema_source": "https://developers.wallex.ir/assets/files/spot-b9d06896d1009adc9ebc69b9a5495e7e.json",
+    "operationId": "getMarkets",
+    "parameters": [],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/resources.allMarkets"
+        }
+      }
+    },
+    "security": null
+  },
+  {
+    "method": "GET",
+    "path": "/depth/all",
+    "schema_source": "https://developers.wallex.ir/assets/files/spot-b9d06896d1009adc9ebc69b9a5495e7e.json",
+    "operationId": "getDepth",
+    "parameters": [],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/resources.AllMarketDepthResponse"
+        }
+      },
+      "500": {
+        "schema": {
+          "$ref": "#/definitions/resources.ErrorResponse"
+        }
+      }
+    },
+    "security": null
+  },
+  {
+    "method": "GET",
+    "path": "/v1/account/openOrders",
+    "schema_source": "https://developers.wallex.ir/assets/files/spot-b9d06896d1009adc9ebc69b9a5495e7e.json",
+    "operationId": "getOpenOrder",
+    "parameters": [
+      {
+        "type": "string",
+        "name": "symbol",
+        "in": "query"
+      },
+      {
+        "type": "integer",
+        "name": "page",
+        "in": "query"
+      },
+      {
+        "type": "integer",
+        "name": "per_page",
+        "in": "query"
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/resources.OrderListResponseV1"
+        }
+      },
+      "400": {
+        "schema": {
+          "$ref": "#/definitions/resources.ErrorResponse"
+        }
+      },
+      "401": {
+        "schema": {
+          "$ref": "#/definitions/resources.ErrorResponse"
+        }
+      },
+      "422": {
+        "schema": {
+          "$ref": "#/definitions/resources.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/v1/account/orders",
+    "schema_source": "https://developers.wallex.ir/assets/files/spot-b9d06896d1009adc9ebc69b9a5495e7e.json",
+    "operationId": "getOrders",
+    "parameters": [
+      {
+        "type": "string",
+        "name": "market",
+        "in": "query"
+      },
+      {
+        "enum": [
+          "STOP_LIMIT",
+          "STOP_MARKET",
+          "LIMIT",
+          "MARKET"
+        ],
+        "type": "string",
+        "name": "type",
+        "in": "query"
+      },
+      {
+        "enum": [
+          "BUY",
+          "SELL"
+        ],
+        "type": "string",
+        "name": "side",
+        "in": "query"
+      },
+      {
+        "type": "integer",
+        "name": "page",
+        "in": "query"
+      },
+      {
+        "type": "integer",
+        "name": "per_page",
+        "in": "query"
+      },
+      {
+        "type": "string",
+        "name": "from",
+        "in": "query"
+      },
+      {
+        "type": "string",
+        "name": "to",
+        "in": "query"
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/resources.OrderPaginateResponseV1"
+        }
+      },
+      "400": {
+        "schema": {
+          "$ref": "#/definitions/resources.ErrorResponse"
+        }
+      },
+      "401": {
+        "schema": {
+          "$ref": "#/definitions/resources.ErrorResponse"
+        }
+      },
+      "422": {
+        "schema": {
+          "$ref": "#/definitions/resources.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "POST",
+    "path": "/v1/account/orders",
+    "schema_source": "https://developers.wallex.ir/assets/files/spot-b9d06896d1009adc9ebc69b9a5495e7e.json",
+    "operationId": "postAccountOrders",
+    "parameters": [
+      {
+        "name": "order",
+        "in": "body",
+        "required": true,
+        "schema": {
+          "$ref": "#/definitions/requests.CreateOrderRequest"
+        }
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "201": {
+        "schema": {
+          "$ref": "#/definitions/resources.OrderResponse"
+        }
+      },
+      "400": {
+        "schema": {
+          "$ref": "#/definitions/resources.ErrorResponse"
+        }
+      },
+      "401": {
+        "schema": {
+          "$ref": "#/definitions/resources.ErrorResponse"
+        }
+      },
+      "422": {
+        "schema": {
+          "$ref": "#/definitions/resources.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "DELETE",
+    "path": "/v1/account/orders",
+    "schema_source": "https://developers.wallex.ir/assets/files/spot-b9d06896d1009adc9ebc69b9a5495e7e.json",
+    "operationId": "deleteAccountOrders",
+    "parameters": [
+      {
+        "name": "order",
+        "in": "body",
+        "required": true,
+        "schema": {
+          "$ref": "#/definitions/requests.CancelOrderRequest"
+        }
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/resources.OrderResponse"
+        }
+      },
+      "400": {
+        "schema": {
+          "$ref": "#/definitions/resources.ErrorResponse"
+        }
+      },
+      "401": {
+        "schema": {
+          "$ref": "#/definitions/resources.ErrorResponse"
+        }
+      },
+      "422": {
+        "schema": {
+          "$ref": "#/definitions/resources.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "GET",
+    "path": "/v1/account/orders/{client_id}",
+    "schema_source": "https://developers.wallex.ir/assets/files/spot-b9d06896d1009adc9ebc69b9a5495e7e.json",
+    "operationId": "getOrdersClient",
+    "parameters": [
+      {
+        "type": "string",
+        "name": "client_id",
+        "in": "path",
+        "required": true
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/resources.OrderResponse"
+        }
+      },
+      "400": {
+        "schema": {
+          "$ref": "#/definitions/resources.ErrorResponse"
+        }
+      },
+      "401": {
+        "schema": {
+          "$ref": "#/definitions/resources.ErrorResponse"
+        }
+      },
+      "404": {
+        "schema": {
+          "$ref": "#/definitions/resources.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  {
+    "method": "DELETE",
+    "path": "/v1/account/orders/{client_id}",
+    "schema_source": "https://developers.wallex.ir/assets/files/spot-b9d06896d1009adc9ebc69b9a5495e7e.json",
+    "operationId": "deleteOrdersClient",
+    "parameters": [
+      {
+        "type": "string",
+        "name": "client_id",
+        "in": "path",
+        "required": true
+      }
+    ],
+    "requestBody": null,
+    "responses": {
+      "200": {
+        "schema": {
+          "$ref": "#/definitions/resources.OrderResponse"
+        }
+      },
+      "400": {
+        "schema": {
+          "$ref": "#/definitions/resources.ErrorResponse"
+        }
+      },
+      "401": {
+        "schema": {
+          "$ref": "#/definitions/resources.ErrorResponse"
+        }
+      },
+      "422": {
+        "schema": {
+          "$ref": "#/definitions/resources.ErrorResponse"
+        }
+      }
+    },
+    "security": [
+      {
+        "ApiKeyAuth": []
+      }
+    ]
+  }
+]

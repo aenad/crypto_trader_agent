@@ -1,0 +1,20 @@
+{
+  "enabled": false,
+  "account_id": "REPLACE_WITH_REVIEWED_MAIN_SPOT_ACCOUNT_LABEL",
+  "approved": ["BTC/TMN"],
+  "markets": [{
+    "symbol": "BTC/TMN",
+    "quote": "TMN",
+    "spot_enabled": true,
+    "account_enabled": true,
+    "quantity_step": "0.000001",
+    "price_tick": "1",
+    "minimum_quantity": "0.000001",
+    "minimum_notional": "100000",
+    "taker_fee_rate": "0.003"
+  }],
+  "capital_tmn": "5000000",
+  "max_order_tmn": "500000",
+  "deadline": "2026-10-26T10:00:00Z",
+  "liquidation_seconds": 300
+}

@@ -1,0 +1,898 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Spot",
+    "contact": {},
+    "version": "1.0"
+  },
+  "host": "api.wallex.com",
+  "basePath": "/",
+  "paths": {
+    "/hector/web/v1/markets": {
+      "get": {
+        "operationId": "getMarkets",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "spot"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/resources.allMarkets"
+            }
+          }
+        }
+      }
+    },
+    "/depth/all": {
+      "get": {
+        "operationId": "getDepth",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "spot"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/resources.AllMarketDepthResponse"
+            }
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/resources.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/account/openOrders": {
+      "get": {
+        "operationId": "getOpenOrder",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "spot"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "symbol",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "name": "per_page",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/resources.OrderListResponseV1"
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/resources.ErrorResponse"
+            }
+          },
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/resources.ErrorResponse"
+            }
+          },
+          "422": {
+            "schema": {
+              "$ref": "#/definitions/resources.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/account/orders": {
+      "get": {
+        "operationId": "getOrders",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "spot"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "market",
+            "in": "query"
+          },
+          {
+            "enum": [
+              "STOP_LIMIT",
+              "STOP_MARKET",
+              "LIMIT",
+              "MARKET"
+            ],
+            "type": "string",
+            "name": "type",
+            "in": "query"
+          },
+          {
+            "enum": [
+              "BUY",
+              "SELL"
+            ],
+            "type": "string",
+            "name": "side",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "name": "per_page",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "from",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "to",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/resources.OrderPaginateResponseV1"
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/resources.ErrorResponse"
+            }
+          },
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/resources.ErrorResponse"
+            }
+          },
+          "422": {
+            "schema": {
+              "$ref": "#/definitions/resources.ErrorResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "postAccountOrders",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "spot"
+        ],
+        "parameters": [
+          {
+            "name": "order",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/requests.CreateOrderRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/resources.OrderResponse"
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/resources.ErrorResponse"
+            }
+          },
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/resources.ErrorResponse"
+            }
+          },
+          "422": {
+            "schema": {
+              "$ref": "#/definitions/resources.ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteAccountOrders",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "spot"
+        ],
+        "parameters": [
+          {
+            "name": "order",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/requests.CancelOrderRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/resources.OrderResponse"
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/resources.ErrorResponse"
+            }
+          },
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/resources.ErrorResponse"
+            }
+          },
+          "422": {
+            "schema": {
+              "$ref": "#/definitions/resources.ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/account/orders/{client_id}": {
+      "get": {
+        "operationId": "getOrdersClient",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "spot"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "client_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/resources.OrderResponse"
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/resources.ErrorResponse"
+            }
+          },
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/resources.ErrorResponse"
+            }
+          },
+          "404": {
+            "schema": {
+              "$ref": "#/definitions/resources.ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteOrdersClient",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "spot"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "client_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/resources.OrderResponse"
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/resources.ErrorResponse"
+            }
+          },
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/resources.ErrorResponse"
+            }
+          },
+          "422": {
+            "schema": {
+              "$ref": "#/definitions/resources.ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "requests.CancelOrderRequest": {
+      "type": "object",
+      "required": [
+        "clientOrderId"
+      ],
+      "properties": {
+        "clientOrderId": {
+          "type": "string"
+        }
+      }
+    },
+    "requests.CancelSubAccountOrderRequest": {
+      "type": "object",
+      "required": [
+        "client_order_id",
+        "subAccount_client_id"
+      ],
+      "properties": {
+        "client_order_id": {
+          "type": "string"
+        },
+        "subAccount_client_id": {
+          "type": "string"
+        }
+      }
+    },
+    "requests.CreateOrderRequest": {
+      "type": "object",
+      "required": [
+        "side",
+        "symbol",
+        "type"
+      ],
+      "properties": {
+        "client_id": {
+          "type": "string"
+        },
+        "price": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "string"
+        },
+        "side": {
+          "type": "string"
+        },
+        "stop_Price": {
+          "type": "string"
+        },
+        "symbol": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "requests.CreateSubAccountOrderRequest": {
+      "type": "object",
+      "required": [
+        "side",
+        "symbol",
+        "type"
+      ],
+      "properties": {
+        "client_id": {
+          "type": "string"
+        },
+        "price": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "string"
+        },
+        "side": {
+          "type": "string"
+        },
+        "stop_Price": {
+          "type": "string"
+        },
+        "subAccount_client_id": {
+          "type": "string"
+        },
+        "symbol": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "resources.AllMarketDepthResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "result": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/resources.MarketDepthResource"
+          }
+        },
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "resources.DepthTupleResource": {
+      "type": "object",
+      "properties": {
+        "price": {
+          "type": "number"
+        },
+        "quantity": {
+          "type": "number"
+        },
+        "sum": {
+          "type": "number"
+        }
+      }
+    },
+    "resources.ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer"
+        },
+        "message": {
+          "type": "string"
+        },
+        "result": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {}
+          }
+        },
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "resources.MarketDepthResource": {
+      "type": "object",
+      "properties": {
+        "ask": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/resources.DepthTupleResource"
+          }
+        },
+        "bid": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/resources.DepthTupleResource"
+          }
+        }
+      }
+    },
+    "resources.OrderListResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/resources.OrderResource"
+          }
+        },
+        "result_info": {},
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "resources.OrderListResponseV1": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "result": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/resources.OrderResource"
+            }
+          }
+        },
+        "result_info": {},
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "resources.OrderPaginateResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/resources.OrderResource"
+          }
+        },
+        "result_info": {},
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "resources.OrderPaginateResponseV1": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "result": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/resources.OrderResource"
+            }
+          }
+        },
+        "result_info": {},
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "resources.OrderResource": {
+      "type": "object",
+      "properties": {
+        "active": {
+          "type": "boolean"
+        },
+        "clientOrderId": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "executedPercent": {
+          "type": "integer"
+        },
+        "executedPrice": {
+          "type": "string"
+        },
+        "executedQty": {
+          "type": "string"
+        },
+        "executedSum": {
+          "type": "string"
+        },
+        "fee": {
+          "type": "string"
+        },
+        "fills": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/resources.TradeResource"
+          }
+        },
+        "origQty": {
+          "type": "string"
+        },
+        "price": {
+          "type": "string"
+        },
+        "side": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "stopPrice": {
+          "type": "string"
+        },
+        "stopPriceCondition": {
+          "type": "string"
+        },
+        "sum": {
+          "type": "string"
+        },
+        "symbol": {
+          "type": "string"
+        },
+        "transactTime": {
+          "type": "integer"
+        },
+        "type": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "resources.OrderResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "result": {
+          "$ref": "#/definitions/resources.OrderResource"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "resources.SingleMarketDepthResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "result": {
+          "$ref": "#/definitions/resources.MarketDepthResource"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "resources.TradeResource": {
+      "type": "object",
+      "properties": {
+        "fee": {
+          "type": "string"
+        },
+        "feeAsset": {
+          "type": "string"
+        },
+        "feeCoefficient": {
+          "type": "string"
+        },
+        "isBuyer": {
+          "type": "boolean"
+        },
+        "makerFeeCoefficient": {
+          "type": "string"
+        },
+        "price": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "string"
+        },
+        "sum": {
+          "type": "string"
+        },
+        "symbol": {
+          "type": "string"
+        },
+        "takerFeeCoefficient": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        }
+      }
+    },
+    "resources.allMarkets": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "result": {
+          "type": "object",
+          "properties": {
+            "markets": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "symbol": {
+                    "type": "string"
+                  },
+                  "base_asset": {
+                    "type": "string"
+                  },
+                  "quote_asset": {
+                    "type": "string"
+                  },
+                  "fa_base_asset": {
+                    "type": "string"
+                  },
+                  "fa_quote_asset": {
+                    "type": "string"
+                  },
+                  "en_base_asset": {
+                    "type": "string"
+                  },
+                  "en_quote_asset": {
+                    "type": "string"
+                  },
+                  "categories": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    }
+                  },
+                  "price": {
+                    "type": "string"
+                  },
+                  "change_24h": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "volume_24h": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "change_7D": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "quote_volume_24h": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "spot_is_new": {
+                    "type": "boolean"
+                  },
+                  "otc_is_new": {
+                    "type": "boolean"
+                  },
+                  "is_new": {
+                    "type": "boolean"
+                  },
+                  "is_spot": {
+                    "type": "boolean"
+                  },
+                  "is_otc": {
+                    "type": "boolean"
+                  },
+                  "is_margin": {
+                    "type": "boolean"
+                  },
+                  "is_tmn_based": {
+                    "type": "boolean"
+                  },
+                  "is_usdt_based": {
+                    "type": "boolean"
+                  },
+                  "is_zero_fee": {
+                    "type": "boolean"
+                  },
+                  "leverage_step": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "max_leverage": {
+                    "type": "number"
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "amount_precision": {
+                    "type": "integer"
+                  },
+                  "price_precision": {
+                    "type": "integer"
+                  },
+                  "flags": {
+                    "type": "array",
+                    "items": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "ApiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "x-api-key"
+    }
+  }
+}

@@ -1,0 +1,153 @@
+لیست معاملات انجام شده | Wallex API Documentation
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://developers.wallex.ir/docs/basic-services-latest-trades","name":"لیست معاملات","position":1}]}
+
+
+
+
+
+
+!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme-5ba")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{for(var[t,e]of new URLSearchParams(window.location.search).entries())if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()
+پرش به مطلب اصلی
+مستندات API
+پیش‌گفتار
+ساخت API-Key
+سرویس‌های پایه
+مقدمه
+کیف‌پول حساب اصلی
+کندل‌ها
+مارکت‌ها
+عمق بازار
+لیست معاملات
+کارمزد حساب کاربری
+اضافه کردن شماره شبا بانکی
+دریافت شماره‌های شبا بانکی
+دریافت کارت‌های بانکی
+ثبت درخواست برداشت تومان
+دریافت آدرس کیف‌پول رمزارز
+مستندات سرویس
+معامله اسپات
+معامله تعهدی
+اعتبار معاملاتی
+معامله آنی
+وب‌سوکت
+سرویس‌های پایه
+لیست معاملات
+مطالب این صفحه
+لیست معاملات انجام شده
+​
+
+
+جهت دریافت آخرین معاملات انجام شده، میتوانید از API زیر استفاده کنید.
+
+توجه داشته باشید استفاده از API به طور مکرر جهت دریافت لیست معاملات توصیه نمیشود و ممکن هست با Rate-Limit مواجه شوید.
+
+جهت دریافت لیست آخرین معاملات انجام شده میتوانید به 
+آموزش سوکت لیست معاملات
+ مراجعه کنید.
+
+
+GET /v1/trades
+
+
+توضیحات Query-parameters
+​
+
+
+برای فراخوانی این API باید مارکتی را که قصد دارید تا نتایح آن را ببینید را در Query-parameters در مسیر API ارسال کنید :
+
+
+Parameter
+Required
+Data Type
+Example
+Description
+symbol
+false
+string
+BTCUSDT
+نماد معاملاتی مورد نظر
+
+
+توضیحات Response-Body
+​
+
+
+توجه داشته باشید که result.latestTrades شامل چندین Object میباشد که هر کدام مشخصات یک معامله انجام شده میباشد.
+
+
+
+
+{
+  
+"result"
+:
+ 
+{
+    
+"latestTrades"
+:
+ 
+[
+      
+{
+        
+"symbol"
+:
+ 
+"نماد و پایه بازار"
+,
+        
+"quantity"
+:
+ 
+"حجم مورد معامله"
+,
+        
+"price"
+:
+ 
+"قیمت واحد"
+,
+        
+"sum"
+:
+ 
+"ارزش سفارش که شامل ضریب مقدار در قیمت میباشد"
+,
+        
+"isBuyOrder"
+:
+ 
+"وضعیت خرید یا فروش بودن معامله"
+,
+        
+"timestamp"
+:
+ 
+"تایم استمپ لحظه انجام معامله"
+      
+}
+    
+]
+  
+}
+,
+  
+"message"
+:
+ 
+"The operation was successful"
+,
+  
+"success"
+:
+ 
+true
+}
+قبلی
+عمق بازار
+بعدی
+کارمزد حساب کاربری
+لیست معاملات انجام شده
+توضیحات Query-parameters
+توضیحات Response-Body

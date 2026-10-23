@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "ES2022", "lib": ["ES2022", "DOM", "DOM.Iterable"], "jsx": "react-jsx",
+    "module": "ESNext", "moduleResolution": "Bundler", "strict": true,
+    "noEmit": true, "isolatedModules": true, "skipLibCheck": true,
+    "esModuleInterop": true, "resolveJsonModule": true
+  },
+  "include": ["src/dashboard", "src/dashboard-main.tsx"]
+}

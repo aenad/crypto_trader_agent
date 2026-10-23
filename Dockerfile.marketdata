@@ -1,0 +1,9 @@
+FROM python:3.13-slim
+WORKDIR /app
+COPY pyproject.toml ./
+COPY src/quantpilot ./src/quantpilot
+RUN pip install --no-cache-dir '.[marketdata]'
+COPY config/markets.example.json /app/config/markets.example.json
+RUN mkdir -p /app/data && chown 65534:65534 /app/data
+USER 65534:65534
+ENTRYPOINT ["quantpilot-data"]

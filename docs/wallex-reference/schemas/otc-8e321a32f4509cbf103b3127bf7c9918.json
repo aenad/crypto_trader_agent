@@ -1,0 +1,431 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Spot",
+    "version": "1.0",
+    "contact": {}
+  },
+  "host": "api.wallex.ir",
+  "basePath": "/",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/v1/otc/markets": {
+      "get": {
+        "operationId": "getOTCMarkets",
+        "tags": [
+          "otc"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/OtcMarketsResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/account/otc/price": {
+      "get": {
+        "operationId": "getOtcPrice",
+        "tags": [
+          "otc"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "side",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "BUY",
+              "SELL"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/OtcPriceResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/account/easy-trade/orders": {
+      "post": {
+        "operationId": "placeEasyTradeOrder",
+        "tags": [
+          "otc"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EasyTradeOrderRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/EasyTradeOrderResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "OtcMarketsResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "result": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/OtcMarket"
+          }
+        }
+      }
+    },
+    "OtcMarket": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string"
+        },
+        "baseAsset": {
+          "type": "string"
+        },
+        "baseAsset_png_icon": {
+          "type": "string",
+          "format": "uri"
+        },
+        "baseAsset_svg_icon": {
+          "type": "string",
+          "format": "uri"
+        },
+        "baseAssetPrecision": {
+          "type": "integer"
+        },
+        "quoteAsset": {
+          "type": "string"
+        },
+        "quoteAsset_png_icon": {
+          "type": "string",
+          "format": "uri"
+        },
+        "quoteAsset_svg_icon": {
+          "type": "string",
+          "format": "uri"
+        },
+        "quotePrecision": {
+          "type": "integer"
+        },
+        "faName": {
+          "type": "string"
+        },
+        "enName": {
+          "type": "string"
+        },
+        "faBaseAsset": {
+          "type": "string"
+        },
+        "enBaseAsset": {
+          "type": "string"
+        },
+        "faQuoteAsset": {
+          "type": "string"
+        },
+        "enQuoteAsset": {
+          "type": "string"
+        },
+        "stepSize": {
+          "type": "integer"
+        },
+        "tickSize": {
+          "type": "integer"
+        },
+        "minQty": {
+          "type": "number",
+          "format": "float"
+        },
+        "minNotional": {
+          "type": "number",
+          "format": "float"
+        },
+        "maxNotional": {
+          "type": "number",
+          "format": "float"
+        },
+        "stats": {
+          "type": "object",
+          "properties": {
+            "24h_ch": {
+              "type": "number",
+              "format": "float"
+            },
+            "lastPrice": {
+              "type": "number",
+              "format": "float"
+            },
+            "24h_highPrice": {
+              "type": "number",
+              "format": "float"
+            },
+            "24h_lowPrice": {
+              "type": "number",
+              "format": "float"
+            },
+            "24h_volume": {
+              "type": "number",
+              "format": "float"
+            }
+          }
+        },
+        "buyStatus": {
+          "type": "string",
+          "enum": [
+            "ENABLE",
+            "DISABLE"
+          ]
+        },
+        "sellStatus": {
+          "type": "string",
+          "enum": [
+            "ENABLE",
+            "DISABLE"
+          ]
+        },
+        "exchangeStatus": {
+          "type": "string",
+          "enum": [
+            "ENABLE",
+            "DISABLE"
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "isNew": {
+          "type": "boolean"
+        },
+        "isZeroFee": {
+          "type": "boolean"
+        },
+        "flags": {
+          "type": "array",
+          "items": {}
+        }
+      }
+    },
+    "OtcPriceResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "result": {
+          "type": "object",
+          "properties": {
+            "price": {
+              "type": "string"
+            },
+            "price_expires_at": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "ttl": {
+              "type": "integer"
+            },
+            "current_time": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      }
+    },
+    "EasyTradeOrderRequest": {
+      "type": "object",
+      "required": [
+        "symbol",
+        "side",
+        "quantity",
+        "from"
+      ],
+      "properties": {
+        "symbol": {
+          "type": "string"
+        },
+        "side": {
+          "type": "string",
+          "enum": [
+            "BUY",
+            "SELL"
+          ]
+        },
+        "quantity": {
+          "type": "number",
+          "format": "float"
+        },
+        "from": {
+          "type": "string"
+        }
+      }
+    },
+    "EasyTradeOrderResponse": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string"
+        },
+        "sourceMarket": {
+          "type": "string"
+        },
+        "destinationMarket": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "side": {
+          "type": "string"
+        },
+        "clientOrderId": {
+          "type": "string"
+        },
+        "transactTime": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "price": {
+          "type": "string"
+        },
+        "origQty": {
+          "type": "string"
+        },
+        "executedSum": {
+          "type": "string"
+        },
+        "executedQty": {
+          "type": "string"
+        },
+        "executedPrice": {
+          "type": "string"
+        },
+        "sum": {
+          "type": "string"
+        },
+        "executedPercent": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "fills": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EasyTradeFill"
+          }
+        }
+      }
+    },
+    "EasyTradeFill": {
+      "type": "object",
+      "properties": {
+        "price": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "string"
+        },
+        "fee": {
+          "type": "string"
+        },
+        "feeCoefficient": {
+          "type": "string"
+        },
+        "feeAsset": {
+          "type": "object"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "symbol": {
+          "type": "string"
+        },
+        "sum": {
+          "type": "string"
+        },
+        "makerFeeCoefficient": {
+          "type": "string"
+        },
+        "takerFeeCoefficient": {
+          "type": "string"
+        },
+        "isBuyer": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "ApiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "x-api-key"
+    }
+  }
+}

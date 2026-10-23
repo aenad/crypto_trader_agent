@@ -60,6 +60,18 @@ class WallexMCP:
             return [{"name": tool.name, "description": tool.description, "input_schema": tool.inputSchema} for tool in result.tools]
 
     async def call_tool(self, name: str, arguments: dict[str, Any] | None = None) -> Any:
+        # Legacy API is read-only. Private order execution exists solely in
+        # quantpilot.live behind independently configured authorization.
+        allowed = {
+            "wallex_spot_get_markets", "wallex_basic_get_markets",
+            "wallex_basic_candle_history", "wallex_basic_get_latest_trades",
+            "wallex_basic_get_market_depth", "wallex_spot_get_depth",
+            "wallex_basic_get_account_balances", "wallex_basic_get_account_fees",
+            "wallex_spot_get_orders", "wallex_spot_get_open_order",
+            "wallex_spot_get_orders_client",
+        }
+        if name not in allowed:
+            raise MCPUnavailable("Tool is outside the approved read-only spot allowlist")
         async with self.session() as session:
             result = await session.call_tool(name, arguments or {})
             if result.isError:

@@ -1,0 +1,275 @@
+{
+  "schema_version": "dashboard-v1",
+  "source": {
+    "id": "demo",
+    "title": "Competition rehearsal",
+    "kind": "DEMO",
+    "simulated": true,
+    "label": "SIMULATED · UI demonstration only",
+    "as_of": "2026-10-22T18:00:00Z",
+    "content_id": "a44a199305d1daa9884fdc1a202d051c470b4270c92ac4af5af4e0672a4ac650",
+    "stale": false
+  },
+  "generated_at": "2026-10-23T00:00:00Z",
+  "metrics": {
+    "initial_capital_tmn": "5000000",
+    "equity_tmn": "5215000",
+    "realized_pnl_tmn": "184000",
+    "net_return_pct": "4.3",
+    "max_drawdown_pct": "0.7812500",
+    "win_rate_pct": "62.5",
+    "fees_tmn": "16000",
+    "trade_count": 8
+  },
+  "equity": [
+    {
+      "at": "2026-10-20T00:00:00Z",
+      "equity_tmn": "5000000",
+      "drawdown_pct": "0"
+    },
+    {
+      "at": "2026-10-20T06:00:00Z",
+      "equity_tmn": "5020000",
+      "drawdown_pct": "0"
+    },
+    {
+      "at": "2026-10-20T12:00:00Z",
+      "equity_tmn": "5060000",
+      "drawdown_pct": "0"
+    },
+    {
+      "at": "2026-10-20T18:00:00Z",
+      "equity_tmn": "5030000",
+      "drawdown_pct": "0.5928853754940711462450592900"
+    },
+    {
+      "at": "2026-10-21T00:00:00Z",
+      "equity_tmn": "5090000",
+      "drawdown_pct": "0"
+    },
+    {
+      "at": "2026-10-21T06:00:00Z",
+      "equity_tmn": "5120000",
+      "drawdown_pct": "0"
+    },
+    {
+      "at": "2026-10-21T12:00:00Z",
+      "equity_tmn": "5080000",
+      "drawdown_pct": "0.7812500"
+    },
+    {
+      "at": "2026-10-21T18:00:00Z",
+      "equity_tmn": "5130000",
+      "drawdown_pct": "0"
+    },
+    {
+      "at": "2026-10-22T00:00:00Z",
+      "equity_tmn": "5170000",
+      "drawdown_pct": "0"
+    },
+    {
+      "at": "2026-10-22T06:00:00Z",
+      "equity_tmn": "5150000",
+      "drawdown_pct": "0.3868471953578336557059961300"
+    },
+    {
+      "at": "2026-10-22T12:00:00Z",
+      "equity_tmn": "5190000",
+      "drawdown_pct": "0"
+    },
+    {
+      "at": "2026-10-22T18:00:00Z",
+      "equity_tmn": "5215000",
+      "drawdown_pct": "0"
+    }
+  ],
+  "markets": [
+    {
+      "symbol": "BTC/TMN",
+      "status": "SIMULATED",
+      "action": "BUY",
+      "as_of": "2026-10-22T18:00:00Z",
+      "reasons": [
+        "Illustrative signal, not model inference"
+      ]
+    },
+    {
+      "symbol": "ETH/TMN",
+      "status": "SIMULATED",
+      "action": "HOLD",
+      "as_of": "2026-10-22T18:00:00Z",
+      "reasons": [
+        "Illustrative signal, not model inference"
+      ]
+    },
+    {
+      "symbol": "SOL/TMN",
+      "status": "SIMULATED",
+      "action": "SELL",
+      "as_of": "2026-10-22T18:00:00Z",
+      "reasons": [
+        "Illustrative signal, not model inference"
+      ]
+    }
+  ],
+  "ai": [
+    {
+      "symbol": "BTC/TMN",
+      "as_of": "2026-10-22T18:00:00Z",
+      "score": "0.72",
+      "assessment": "ACCEPT",
+      "fusion": "ACCEPT",
+      "model_version": "demo-lightgbm-v1",
+      "prompt_version": "demo-prompt-v1"
+    },
+    {
+      "symbol": "ETH/TMN",
+      "as_of": "2026-10-22T18:00:00Z",
+      "score": "0.43",
+      "assessment": "VETO",
+      "fusion": "REJECT",
+      "model_version": "demo-lightgbm-v1",
+      "prompt_version": "demo-prompt-v1"
+    }
+  ],
+  "orders": [
+    {
+      "id": "demo-buy-01",
+      "symbol": "BTC/TMN",
+      "side": "BUY",
+      "state": "FILLED",
+      "quantity": "0.0001",
+      "filled_quantity": "0.0001",
+      "at": "2026-10-22T18:00:00Z",
+      "latency_ms": "148"
+    },
+    {
+      "id": "demo-exit-02",
+      "symbol": "SOL/TMN",
+      "side": "SELL",
+      "state": "PARTIALLY_FILLED",
+      "quantity": "0.8",
+      "filled_quantity": "0.5",
+      "at": "2026-10-22T18:00:00Z",
+      "latency_ms": "206"
+    }
+  ],
+  "fills": [
+    {
+      "id": "demo-fill-01",
+      "order_id": "demo-buy-01",
+      "symbol": "BTC/TMN",
+      "side": "BUY",
+      "quantity": "0.0001",
+      "price": "8000000000",
+      "fee": "800",
+      "fee_currency": "TMN",
+      "at": "2026-10-22T18:00:00Z"
+    }
+  ],
+  "rejections": [
+    {
+      "symbol": "ETH/TMN",
+      "at": "2026-10-22T18:00:00Z",
+      "reasons": [
+        "AI_VETO",
+        "WEAK_MOMENTUM"
+      ]
+    }
+  ],
+  "daily": [
+    {
+      "day": "2026-10-20",
+      "pnl_tmn": "30000",
+      "decisions": 24,
+      "fills": 3
+    },
+    {
+      "day": "2026-10-21",
+      "pnl_tmn": "100000",
+      "decisions": 27,
+      "fills": 4
+    },
+    {
+      "day": "2026-10-22",
+      "pnl_tmn": "85000",
+      "decisions": 22,
+      "fills": 2
+    }
+  ],
+  "comparison": [
+    {
+      "variant": "Quant only",
+      "net_return_pct": "2.6",
+      "max_drawdown_pct": "1.8",
+      "trades": 12,
+      "fees_tmn": "24000"
+    },
+    {
+      "variant": "Quant + LightGBM",
+      "net_return_pct": "3.5",
+      "max_drawdown_pct": "1.2",
+      "trades": 10,
+      "fees_tmn": "19000"
+    },
+    {
+      "variant": "Quant + LightGBM + LLM",
+      "net_return_pct": "4.3",
+      "max_drawdown_pct": "0.8",
+      "trades": 8,
+      "fees_tmn": "16000"
+    }
+  ],
+  "evidence": [
+    {
+      "name": "Backtest",
+      "status": "ILLUSTRATIVE",
+      "detail": "No engine run behind this UI dataset"
+    },
+    {
+      "name": "Replay",
+      "status": "ILLUSTRATIVE",
+      "detail": "Not a recorded replay result"
+    },
+    {
+      "name": "AI comparison",
+      "status": "ILLUSTRATIVE",
+      "detail": "No measured model benefit"
+    }
+  ],
+  "health": [
+    {
+      "name": "Mode",
+      "status": "DEMO",
+      "detail": "No exchange connection or trading"
+    },
+    {
+      "name": "MCP",
+      "status": "NOT_CONNECTED",
+      "detail": "Offline UI dataset"
+    },
+    {
+      "name": "WebSocket",
+      "status": "NOT_CONNECTED",
+      "detail": "Offline UI dataset"
+    },
+    {
+      "name": "API errors",
+      "status": "NOT_OBSERVED",
+      "detail": "No live telemetry"
+    },
+    {
+      "name": "Circuit breakers",
+      "status": "SIMULATED",
+      "detail": "Live execution remains disabled"
+    }
+  ],
+  "limitations": [
+    "SIMULATED UI fixtures: all performance and AI values are illustrative.",
+    "Not a backtest, SHADOW session or real trading result.",
+    "Demo fills are illustrative examples, not a complete accounting ledger."
+  ],
+  "strategy": "Completed 5m Momentum Breakout with 15m trend confirmation; deterministic risk.",
+  "risk_policy": "Nominal risk cap 0.5% per trade; exposure, daily loss and drawdown gates.",
+  "ai_contribution": "Illustrative comparison only. No causal AI benefit is established."
+}

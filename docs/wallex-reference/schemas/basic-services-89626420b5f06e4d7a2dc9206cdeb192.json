@@ -1,0 +1,1197 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Spot",
+    "version": "1.0",
+    "contact": {}
+  },
+  "host": "api.wallex.com",
+  "basePath": "/",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/v1/account/wallets/{symbol}": {
+      "get": {
+        "operationId": "getAccountWalletBySymbol",
+        "tags": [
+          "basic-services"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "network",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/AccountWalletResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/account/ibans": {
+      "post": {
+        "operationId": "addAccountIban",
+        "tags": [
+          "basic-services"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddIbanRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/AddIbanResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getAccountIbans",
+        "tags": [
+          "basic-services"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "per_page",
+            "in": "query",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/AccountIbansResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/account/money-withdrawal": {
+      "post": {
+        "operationId": "createMoneyWithdrawal",
+        "tags": [
+          "basic-services"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MoneyWithdrawalRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/MoneyWithdrawalResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/account/card-numbers": {
+      "get": {
+        "operationId": "getAccountCardNumbers",
+        "tags": [
+          "basic-services"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/AccountCardNumbersResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/account/fee": {
+      "get": {
+        "operationId": "getAccountFees",
+        "tags": [
+          "basic-services"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/AccountFeeResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/trades": {
+      "get": {
+        "operationId": "getLatestTrades",
+        "tags": [
+          "basic-services"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/LatestTradesResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/hector/web/v1/markets": {
+      "get": {
+        "operationId": "getMarkets",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "basic-services"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/resources.allMarkets"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/depth": {
+      "get": {
+        "operationId": "getMarketDepth",
+        "tags": [
+          "basic-services"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/MarketDepthResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/account/balances": {
+      "get": {
+        "operationId": "getAccountBalances",
+        "tags": [
+          "basic-services"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/AccountBalancesResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/udf/history": {
+      "get": {
+        "operationId": "candleHistory",
+        "tags": [
+          "basic-services"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "resolution",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/MarketHistoryResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "AccountWalletResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/WalletResult"
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "provider": {
+          "type": "string"
+        }
+      }
+    },
+    "WalletResult": {
+      "type": "object",
+      "properties": {
+        "coin_type": {
+          "$ref": "#/definitions/CoinType"
+        },
+        "wallets": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/WalletDetails"
+          }
+        }
+      }
+    },
+    "CoinType": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "name_en": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "deposit_availability": {
+          "type": "string"
+        },
+        "withdrawal_availability": {
+          "type": "string"
+        },
+        "deposit_unavailability_reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "withdrawal_unavailability_reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "WalletDetails": {
+      "type": "object",
+      "properties": {
+        "network": {
+          "$ref": "#/definitions/WalletNetwork"
+        },
+        "address": {
+          "type": "string"
+        },
+        "memo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "expire_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "min_confirmation": {
+          "type": "integer"
+        },
+        "transaction_fee": {
+          "type": "number",
+          "format": "float"
+        },
+        "min_withdrawal_value": {
+          "type": "string"
+        },
+        "min_deposit_value": {
+          "type": "number"
+        }
+      }
+    },
+    "WalletNetwork": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "message": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {
+          "type": "string"
+        },
+        "deposit_availability": {
+          "type": "string"
+        },
+        "withdrawal_availability": {
+          "type": "string"
+        },
+        "deposit_unavailability_reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "withdrawal_unavailability_reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "AddIbanRequest": {
+      "type": "object",
+      "required": [
+        "iban"
+      ],
+      "properties": {
+        "iban": {
+          "type": "string"
+        }
+      }
+    },
+    "AddIbanResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/IbanResponseItem"
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "IbanResponseItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "withdraw_daily_amount": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "withdraw_available_amount": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "iban": {
+          "type": "string"
+        },
+        "owners": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "bank_name": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "is_default": {
+          "type": "integer"
+        },
+        "bank_details": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "is_available": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "AccountIbansResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IbanItem"
+          }
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "result_info": {
+          "type": "object",
+          "properties": {
+            "page": {
+              "type": "integer"
+            },
+            "per_page": {
+              "type": "integer"
+            },
+            "count": {
+              "type": "integer"
+            },
+            "total_count": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "IbanItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "withdraw_daily_amount": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "withdraw_available_amount": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "iban": {
+          "type": "string"
+        },
+        "owners": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "bank_name": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "is_default": {
+          "type": "integer"
+        },
+        "bank_details": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "is_available": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "MoneyWithdrawalRequest": {
+      "type": "object",
+      "required": [
+        "iban",
+        "value"
+      ],
+      "properties": {
+        "iban": {
+          "type": "integer"
+        },
+        "value": {
+          "type": "number"
+        }
+      }
+    },
+    "MoneyWithdrawalResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/MoneyWithdrawalResult"
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "MoneyWithdrawalResult": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "number"
+        },
+        "fee": {
+          "type": "number"
+        },
+        "tracking_code": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string"
+        },
+        "iban": {
+          "$ref": "#/definitions/IbanInfo"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WithdrawalDetail"
+          }
+        }
+      }
+    },
+    "IbanInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "iban": {
+          "type": "string"
+        },
+        "owners": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "bank_name": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "is_default": {
+          "type": "integer"
+        },
+        "bank_details": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "is_available": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "WithdrawalDetail": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "AccountCardNumbersResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CardNumberItem"
+          }
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "result_info": {
+          "type": "object",
+          "properties": {
+            "page": {
+              "type": "integer"
+            },
+            "per_page": {
+              "type": "integer"
+            },
+            "count": {
+              "type": "integer"
+            },
+            "total_count": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "CardNumberItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "card_number": {
+          "type": "string"
+        },
+        "owners": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "type": "string"
+        },
+        "is_default": {
+          "type": "integer"
+        },
+        "bank_details": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "AccountFeeResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "result": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/FeeItem"
+          }
+        }
+      }
+    },
+    "FeeItem": {
+      "type": "object",
+      "properties": {
+        "makerFeeRate": {
+          "type": "string"
+        },
+        "takerFeeRate": {
+          "type": "string"
+        },
+        "recent_days_sum": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "LatestTradesResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "object",
+          "properties": {
+            "latestTrades": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TradeEntry"
+              }
+            }
+          }
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "TradeEntry": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "string"
+        },
+        "price": {
+          "type": "string"
+        },
+        "sum": {
+          "type": "string"
+        },
+        "isBuyOrder": {
+          "type": "boolean"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "MarketDepthResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "object",
+          "properties": {
+            "ask": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OrderBookEntry"
+              }
+            },
+            "bid": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OrderBookEntry"
+              }
+            }
+          }
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "OrderBookEntry": {
+      "type": "object",
+      "properties": {
+        "price": {
+          "type": "number"
+        },
+        "quantity": {
+          "type": "number"
+        },
+        "sum": {
+          "type": "string"
+        }
+      }
+    },
+    "resources.allMarkets": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "result": {
+          "type": "object",
+          "properties": {
+            "markets": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "symbol": {
+                    "type": "string"
+                  },
+                  "base_asset": {
+                    "type": "string"
+                  },
+                  "quote_asset": {
+                    "type": "string"
+                  },
+                  "fa_base_asset": {
+                    "type": "string"
+                  },
+                  "fa_quote_asset": {
+                    "type": "string"
+                  },
+                  "en_base_asset": {
+                    "type": "string"
+                  },
+                  "en_quote_asset": {
+                    "type": "string"
+                  },
+                  "categories": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    }
+                  },
+                  "price": {
+                    "type": "string"
+                  },
+                  "change_24h": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "volume_24h": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "change_7D": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "quote_volume_24h": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "spot_is_new": {
+                    "type": "boolean"
+                  },
+                  "otc_is_new": {
+                    "type": "boolean"
+                  },
+                  "is_new": {
+                    "type": "boolean"
+                  },
+                  "is_spot": {
+                    "type": "boolean"
+                  },
+                  "is_otc": {
+                    "type": "boolean"
+                  },
+                  "is_margin": {
+                    "type": "boolean"
+                  },
+                  "is_tmn_based": {
+                    "type": "boolean"
+                  },
+                  "is_usdt_based": {
+                    "type": "boolean"
+                  },
+                  "is_zero_fee": {
+                    "type": "boolean"
+                  },
+                  "leverage_step": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "max_leverage": {
+                    "type": "number"
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "amount_precision": {
+                    "type": "integer"
+                  },
+                  "price_precision": {
+                    "type": "integer"
+                  },
+                  "flags": {
+                    "type": "array",
+                    "items": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "AccountBalanceItem": {
+      "type": "object",
+      "properties": {
+        "asset": {
+          "type": "string"
+        },
+        "asset_png_icon": {
+          "type": "string",
+          "format": "uri"
+        },
+        "asset_svg_icon": {
+          "type": "string",
+          "format": "uri"
+        },
+        "faName": {
+          "type": "string"
+        },
+        "fiat": {
+          "type": "boolean"
+        },
+        "value": {
+          "type": "string"
+        },
+        "locked": {
+          "type": "string"
+        },
+        "is_dust": {
+          "type": "boolean"
+        },
+        "is_digital_gold": {
+          "type": "boolean"
+        }
+      }
+    },
+    "AccountBalancesResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "object",
+          "properties": {
+            "balances": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/AccountBalanceItem"
+              }
+            }
+          }
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "MarketHistoryResponse": {
+      "type": "object",
+      "properties": {
+        "s": {
+          "type": "string"
+        },
+        "t": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "c": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "o": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "h": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "l": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "v": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "ApiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "x-api-key"
+    }
+  }
+}

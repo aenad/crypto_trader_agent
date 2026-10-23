@@ -1,0 +1,20 @@
+{
+  "review_date": "2026-10-23",
+  "evidence_level": "official_documentation_search_excerpts_only_not_authenticated_runtime",
+  "direct_page_fetch": "developers pages returned 404; api-docs fetch timed out",
+  "base_url": "https://api.wallex.ir",
+  "authentication_header": "X-API-Key",
+  "contracts": [
+    {"method": "POST", "path": "/v1/account/orders", "source": "https://developers.wallex.ir/spot/createorder", "implemented_subset": "LIMIT with client_id, symbol, side, quantity and price strings"},
+    {"method": "GET", "path": "/v1/account/orders/{client_id}", "source": "https://developers.wallex.ir/spot/singleorderdetail", "notes": "Complete cumulative fills required; no immutable fill identifier documented"},
+    {"method": "DELETE", "path": "/v1/account/orders", "query": ["clientOrderId"], "source": "https://api-docs.wallex.ir/", "notes": "Older official query contract; MCP body/path variants are not substituted"},
+    {"method": "GET", "path": "/v1/account/openOrders", "source": "https://developers.wallex.ir/spot/activeorders", "secondary_source": "https://api-docs.wallex.ir/", "notes": "page/per_page documented; implement only result.orders list, reject grouped unknown shapes"},
+    {"method": "GET", "path": "/v1/account/balances", "source": "https://developers.wallex.ir/basicservices/mainaccountwallet", "notes": "Main account distinct from credit accounts; operator must verify value/locked semantics"},
+    {"method": "GET", "path": "/v1/account/fee", "source": "https://api-docs.wallex.ir/"},
+    {"method": "GET", "path": "/v1/markets", "source": "https://api-docs.wallex.ir/", "notes": "stepSize/tickSize are decimal counts; do not confuse with increment sizes"}
+  ],
+  "documented_order_statuses": ["NEW", "FILLED", "CANCELED"],
+  "unknowns": ["Actual restricted key permissions and identity", "Competition credit account routing", "Exchange client_id deduplication guarantees", "Current cancellation shape", "Production cumulative fill completeness and timestamp representation", "Actual open-order pagination shape", "Balance value includes or excludes locked"],
+  "no_authenticated_calls": true,
+  "no_exchange_mutations": true
+}

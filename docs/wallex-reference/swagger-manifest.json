@@ -1,0 +1,53 @@
+{
+  "assets_discovered": [
+    "https://developers.wallex.ir/assets/files/basic-services-89626420b5f06e4d7a2dc9206cdeb192.json",
+    "https://developers.wallex.ir/assets/files/margin-c709e1f52cb44387a2e35ffd678c6dfa.json",
+    "https://developers.wallex.ir/assets/files/otc-8e321a32f4509cbf103b3127bf7c9918.json",
+    "https://developers.wallex.ir/assets/files/spot-b9d06896d1009adc9ebc69b9a5495e7e.json",
+    "https://developers.wallex.ir/assets/files/trade-credit-ff5c60b5b97b77a5b2c2e4800f07729c.yaml"
+  ],
+  "saved": [
+    {
+      "url": "https://developers.wallex.ir/assets/files/basic-services-89626420b5f06e4d7a2dc9206cdeb192.json",
+      "file": "schemas/basic-services-89626420b5f06e4d7a2dc9206cdeb192.json",
+      "status": 200,
+      "source_sha256": "3f3effa97d724d373fcb4675b01a3cf6453fb6947649b33fd60ef81f98bb71d5",
+      "openapi": "2.0",
+      "license": null,
+      "operation_count": 11
+    },
+    {
+      "url": "https://developers.wallex.ir/assets/files/margin-c709e1f52cb44387a2e35ffd678c6dfa.json",
+      "file": "schemas/margin-c709e1f52cb44387a2e35ffd678c6dfa.json",
+      "status": 200,
+      "source_sha256": "16c5f89381d9449456edb2e7c4b297f64139851b9795fc877add1823dd4e7ff4",
+      "openapi": "2.0",
+      "license": null,
+      "operation_count": 15
+    },
+    {
+      "url": "https://developers.wallex.ir/assets/files/otc-8e321a32f4509cbf103b3127bf7c9918.json",
+      "file": "schemas/otc-8e321a32f4509cbf103b3127bf7c9918.json",
+      "status": 200,
+      "source_sha256": "f9347b5f61786f76ce5d5dc234381edd836b751bbb866ca54e62d4aa4f4203f1",
+      "openapi": "2.0",
+      "license": null,
+      "operation_count": 3
+    },
+    {
+      "url": "https://developers.wallex.ir/assets/files/spot-b9d06896d1009adc9ebc69b9a5495e7e.json",
+      "file": "schemas/spot-b9d06896d1009adc9ebc69b9a5495e7e.json",
+      "status": 200,
+      "source_sha256": "10d8667602b3f82428b7a35688174449843e6ed36c9de816050dccc3e6a69753",
+      "openapi": "2.0",
+      "license": null,
+      "operation_count": 8
+    }
+  ],
+  "failures": [
+    {
+      "url": "https://developers.wallex.ir/assets/files/trade-credit-ff5c60b5b97b77a5b2c2e4800f07729c.yaml",
+      "error_type": "JSONDecodeError"
+    }
+  ]
+}
