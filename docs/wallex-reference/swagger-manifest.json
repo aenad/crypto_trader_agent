@@ -42,12 +42,16 @@
       "openapi": "2.0",
       "license": null,
       "operation_count": 8
-    }
-  ],
-  "failures": [
+    },
     {
       "url": "https://developers.wallex.ir/assets/files/trade-credit-ff5c60b5b97b77a5b2c2e4800f07729c.yaml",
-      "error_type": "JSONDecodeError"
+      "file": "schemas/trade-credit-ff5c60b5b97b77a5b2c2e4800f07729c.json",
+      "status": 200,
+      "source_sha256": "d8141055d11f6fa63867f70d3d0449af2bf7c5d86f67eab7f0d37e73ba3395eb",
+      "openapi": "3.0.3",
+      "license": null,
+      "operation_count": 16
     }
-  ]
+  ],
+  "failures": []
 }

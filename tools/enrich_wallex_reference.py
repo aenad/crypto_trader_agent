@@ -22,27 +22,36 @@ def contract(value, names=False):
     return value
 
 
-def schema_lines(schema, prefix="", depth=0):
+def schema_lines(schema, prefix="", depth=0, document=None):
     if not isinstance(schema, dict) or depth > 8:
         return []
     result = []
     if "$ref" in schema:
-        return [f"- `{prefix or '$'}` → `{schema['$ref']}`"]
+        result.append(f"- `{prefix or '$'}` → `{schema['$ref']}`")
+        ref = schema["$ref"]
+        if document and ref.startswith("#/"):
+            target = document
+            for part in ref[2:].split("/"):
+                target = target.get(part.replace("~1", "/").replace("~0", "~"), {})
+            result += schema_lines(target, prefix, depth + 1, document)
+        return result
     if schema.get("type") == "array":
-        return schema_lines(schema.get("items", {}), prefix + "[]", depth + 1)
+        return schema_lines(schema.get("items", {}), prefix + "[]", depth + 1, document)
     required = schema.get("required", [])
     for name, child in schema.get("properties", {}).items():
         field = prefix + "." + name if prefix else name
         kind = child.get("type", "$ref" if "$ref" in child else "unspecified")
         enum = f"; enum={json.dumps(child['enum'], ensure_ascii=False)}" if "enum" in child else ""
         result.append(f"- `{field}`: `{kind}`; required={name in required}{enum}")
-        result.extend(schema_lines(child, field, depth + 1))
+        result.extend(schema_lines(child, field, depth + 1, document))
     return result
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path("docs/wallex-reference"))
+    parser.add_argument("--reuse-existing", action="store_true",
+                        help="Reuse schemas with a successful record in the current manifest")
     args = parser.parse_args()
     root = args.root
     pages = json.loads((root / "pages.json").read_text(encoding="utf-8"))
@@ -52,6 +61,8 @@ def main():
     out.mkdir(exist_ok=True)
     fetch = Fetcher(0.5)
     report = {"assets_discovered": urls, "saved": [], "failures": []}
+    previous = root / "swagger-manifest.json"
+    prior = {entry["url"]: entry for entry in json.loads(previous.read_text(encoding="utf-8"))["saved"]} if previous.exists() else {}
     operations = []
     doc = ["# Official Swagger technical contracts", "",
            "Source schemas were read in full. Narrative descriptions and sample payload values",
@@ -59,14 +70,21 @@ def main():
            "These contracts are documentary evidence, not runtime verification or trading permission.", ""]
     for url in urls:
         try:
-            status, body, _ = fetch.get(url)
-            if urllib.parse.urlsplit(url).path.endswith((".yaml", ".yml")):
+            cached = prior.get(url)
+            if args.reuse_existing and cached and (root / cached["file"]).is_file():
+                spec = json.loads((root / cached["file"]).read_text(encoding="utf-8"))
+                status, source_hash = cached["status"], cached["source_sha256"]
+            else:
+                status, body, _ = fetch.get(url)
+                source_hash = hashlib.sha256(body.encode()).hexdigest()
+                spec = None
+            if spec is None and urllib.parse.urlsplit(url).path.endswith((".yaml", ".yml")):
                 # Optional tooling dependency already present in this workspace;
                 # never use YAML object constructors or add a production package.
                 import yaml
 
                 spec = yaml.safe_load(body)
-            else:
+            elif spec is None:
                 spec = json.loads(body)
             if not isinstance(spec, dict) or not ("openapi" in spec or "swagger" in spec):
                 raise ValueError("OPENAPI_DOCUMENT_REQUIRED")
@@ -75,7 +93,7 @@ def main():
             (out / name).write_text(json.dumps(cleaned, ensure_ascii=False, indent=2), encoding="utf-8")
             info = spec.get("info", {})
             report["saved"].append({"url": url, "file": "schemas/" + name, "status": status,
-                                     "source_sha256": hashlib.sha256(body.encode()).hexdigest(),
+                                     "source_sha256": source_hash,
                                      "openapi": spec.get("openapi", spec.get("swagger")),
                                      "license": info.get("license"),
                                      "operation_count": sum(
@@ -104,13 +122,23 @@ def main():
                         doc += [f"- Parameter `{param.get('name', param.get('$ref', '?'))}`; "
                                 f"in={param.get('in', '?')}; required={param.get('required', False)}; "
                                 f"type={param.get('type', param.get('schema', {}).get('type', 'unspecified'))}"]
-                        doc += schema_lines(param.get("schema", {}))
+                        doc += schema_lines(param.get("schema", {}), document=cleaned)
                     for media, content in (record["requestBody"] or {}).get("content", {}).items():
                         doc += ["", f"Request content: `{media}`"]
-                        doc += schema_lines(content.get("schema", {}))
+                        doc += schema_lines(content.get("schema", {}), document=cleaned)
                     doc += ["", "Response status codes: " + ", ".join(
                         f"`{code}`" for code in (record["responses"] or {})
                     ), ""]
+                    for status_code, response in (record["responses"] or {}).items():
+                        if not isinstance(response, dict):
+                            continue
+                        if "schema" in response:
+                            doc += [f"Response `{status_code}` fields:", ""]
+                            doc += schema_lines(response["schema"], document=cleaned)
+                        for media, content in response.get("content", {}).items():
+                            doc += [f"Response `{status_code}` / `{media}` fields:", ""]
+                            doc += schema_lines(content.get("schema", {}), document=cleaned)
+                        doc.append("")
             print(f"Extracted {name}", flush=True)
         except Exception as error:
             report["failures"].append({"url": url, "error_type": type(error).__name__})

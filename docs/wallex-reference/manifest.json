@@ -129,5 +129,8 @@
   "failures": [],
   "pending": [],
   "completed_at": "2026-10-23T14:31:34.641814+00:00",
-  "pages_read": 114
+  "pages_read": 114,
+  "extraction_mode": "Server-rendered HTML plus separately extracted official Swagger contracts",
+  "narrative_mirrored": false,
+  "javascript_browser_rendered": false
 }

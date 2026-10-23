@@ -1,3 +1,10 @@
+> **New documentary evidence from the full /docs crawl:** official spot introduction
+> requires the credit account's own API key and `sub-account-client-id`. Credit Swagger
+> also declares that selector for wallet/package reads. The earlier statement that no
+> selector contract was found is superseded by this evidence. Current key identity,
+> successful selected-account access and MCP header forwarding remain unverified;
+> no execution was enabled. See [findings](wallex-reference/FINDINGS_FA.md).
+
 # Competition credit account connection status
 
 ## Confirmed operator scope

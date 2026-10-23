@@ -6,6 +6,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
+    
     app_name: str = "Nova Trading Engine"
     mcp_transport: str = "streamable_http"
     mcp_url: str = "https://api.wallex.ir/mcp"

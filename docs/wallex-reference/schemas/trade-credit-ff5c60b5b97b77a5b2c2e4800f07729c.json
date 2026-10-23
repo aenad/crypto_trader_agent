@@ -1,0 +1,2991 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "trade-credit",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "servers": [
+    {
+      "url": "https://api.wallex.ir"
+    }
+  ],
+  "paths": {
+    "/sub-accounts": {
+      "get": {
+        "tags": [
+          "trade-credit"
+        ],
+        "operationId": "activeSubAccountsList",
+        "responses": {
+          "200": {
+            "headers": {
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Server": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "alt-svc": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "cache-control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-auth-cache-status": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-authenticated": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-envoy-upstream-service-time": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "clientId": {
+                            "type": "string"
+                          },
+                          "createdAt": {
+                            "type": "string"
+                          },
+                          "darkAvatarUrl": {
+                            "type": "string"
+                          },
+                          "isActive": {
+                            "type": "boolean"
+                          },
+                          "isSuspend": {
+                            "type": "boolean"
+                          },
+                          "lightAvatarUrl": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "type": {
+                            "type": "string"
+                          },
+                          "userId": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    },
+                    "result_info": {
+                      "type": "object",
+                      "properties": {
+                        "count": {
+                          "type": "number"
+                        },
+                        "page": {
+                          "type": "number"
+                        },
+                        "per_page": {
+                          "type": "number"
+                        },
+                        "total_count": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      }
+    },
+    "/sub-accounts/transfers": {
+      "get": {
+        "tags": [
+          "trade-credit"
+        ],
+        "operationId": "subAccountTransfer",
+        "parameters": [
+          {
+            "name": "sub-account-client-id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "headers": {
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Server": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "alt-svc": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "cache-control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-auth-cache-status": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-authenticated": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-envoy-upstream-service-time": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "createdAt": {
+                            "type": "string"
+                          },
+                          "currency": {
+                            "type": "string"
+                          },
+                          "destination_client_id": {
+                            "type": "string"
+                          },
+                          "destination_client_title": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "destination_user_type": {
+                            "type": "string"
+                          },
+                          "fa_destination_user_type": {
+                            "type": "string"
+                          },
+                          "fa_source_user_type": {
+                            "type": "string"
+                          },
+                          "reason": {
+                            "type": "string"
+                          },
+                          "source_client_id": {
+                            "type": "string"
+                          },
+                          "source_client_title": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "source_user_type": {
+                            "type": "string"
+                          },
+                          "unique_id": {
+                            "type": "number"
+                          },
+                          "value": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "result_info": {
+                      "type": "object",
+                      "properties": {
+                        "count": {
+                          "type": "number"
+                        },
+                        "page": {
+                          "type": "number"
+                        },
+                        "per_page": {
+                          "type": "number"
+                        },
+                        "total_count": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "trade-credit"
+        ],
+        "operationId": "createTransferToSubAccount",
+        "parameters": [
+          {
+            "name": "sub-account-client-id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "currency": {
+                    "type": "string"
+                  },
+                  "subAccount_client_id": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Server": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Robots-Tag": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "alt-svc": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "clientId": {
+                          "type": "string"
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "darkAvatarUrl": {
+                          "type": "string"
+                        },
+                        "isActive": {
+                          "type": "boolean"
+                        },
+                        "isSuspend": {
+                          "type": "boolean"
+                        },
+                        "lightAvatarUrl": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "userId": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Server": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Robots-Tag": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "currency": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/account/balances-detail": {
+      "get": {
+        "tags": [
+          "trade-credit"
+        ],
+        "operationId": "subAccountBalancesDetails",
+        "parameters": [
+          {
+            "name": "sub-account-client-id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "headers": {
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Server": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "alt-svc": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "cache-control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-auth-cache-status": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-authenticated": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-envoy-upstream-service-time": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-ratelimit-limit": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-ratelimit-remaining": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "BTC": {
+                          "type": "object",
+                          "properties": {
+                            "available": {
+                              "type": "string"
+                            },
+                            "freeze": {
+                              "type": "string"
+                            },
+                            "stats": {
+                              "type": "object",
+                              "properties": {
+                                "BTC": {
+                                  "type": "object",
+                                  "properties": {
+                                    "changePercentage": {
+                                      "type": "string"
+                                    },
+                                    "estimatedValue": {
+                                      "type": "string"
+                                    },
+                                    "last24HoursEstimatedValueChange": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                "TMN": {
+                                  "type": "object",
+                                  "properties": {
+                                    "baseMarketName": {
+                                      "type": "string"
+                                    },
+                                    "changePercentage": {
+                                      "type": "string"
+                                    },
+                                    "estimatedValue": {
+                                      "type": "string"
+                                    },
+                                    "last24HoursEstimatedValueChange": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                "USDT": {
+                                  "type": "object",
+                                  "properties": {
+                                    "baseMarketName": {
+                                      "type": "string"
+                                    },
+                                    "changePercentage": {
+                                      "type": "string"
+                                    },
+                                    "estimatedValue": {
+                                      "type": "string"
+                                    },
+                                    "last24HoursEstimatedValueChange": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "symbol": {
+                              "type": "string"
+                            },
+                            "total": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "ETH": {
+                          "type": "object",
+                          "properties": {
+                            "available": {
+                              "type": "string"
+                            },
+                            "freeze": {
+                              "type": "string"
+                            },
+                            "stats": {
+                              "type": "object",
+                              "properties": {
+                                "BTC": {
+                                  "type": "object",
+                                  "properties": {
+                                    "changePercentage": {
+                                      "type": "string"
+                                    },
+                                    "estimatedValue": {
+                                      "type": "string"
+                                    },
+                                    "last24HoursEstimatedValueChange": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                "TMN": {
+                                  "type": "object",
+                                  "properties": {
+                                    "baseMarketName": {
+                                      "type": "string"
+                                    },
+                                    "changePercentage": {
+                                      "type": "string"
+                                    },
+                                    "estimatedValue": {
+                                      "type": "string"
+                                    },
+                                    "last24HoursEstimatedValueChange": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                "USDT": {
+                                  "type": "object",
+                                  "properties": {
+                                    "baseMarketName": {
+                                      "type": "string"
+                                    },
+                                    "changePercentage": {
+                                      "type": "string"
+                                    },
+                                    "estimatedValue": {
+                                      "type": "string"
+                                    },
+                                    "last24HoursEstimatedValueChange": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "symbol": {
+                              "type": "string"
+                            },
+                            "total": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "TMN": {
+                          "type": "object",
+                          "properties": {
+                            "available": {
+                              "type": "string"
+                            },
+                            "freeze": {
+                              "type": "string"
+                            },
+                            "stats": {
+                              "type": "object",
+                              "properties": {
+                                "BTC": {
+                                  "type": "object",
+                                  "properties": {
+                                    "baseMarketName": {
+                                      "type": "string"
+                                    },
+                                    "changePercentage": {
+                                      "type": "string"
+                                    },
+                                    "estimatedValue": {
+                                      "type": "string"
+                                    },
+                                    "last24HoursEstimatedValueChange": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                "TMN": {
+                                  "type": "object",
+                                  "properties": {
+                                    "changePercentage": {
+                                      "type": "string"
+                                    },
+                                    "estimatedValue": {
+                                      "type": "string"
+                                    },
+                                    "last24HoursEstimatedValueChange": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                "USDT": {
+                                  "type": "object",
+                                  "properties": {
+                                    "baseMarketName": {
+                                      "type": "string"
+                                    },
+                                    "changePercentage": {
+                                      "type": "string"
+                                    },
+                                    "estimatedValue": {
+                                      "type": "string"
+                                    },
+                                    "last24HoursEstimatedValueChange": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "symbol": {
+                              "type": "string"
+                            },
+                            "total": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "USDT": {
+                          "type": "object",
+                          "properties": {
+                            "available": {
+                              "type": "string"
+                            },
+                            "freeze": {
+                              "type": "string"
+                            },
+                            "stats": {
+                              "type": "object",
+                              "properties": {
+                                "BTC": {
+                                  "type": "object",
+                                  "properties": {
+                                    "baseMarketName": {
+                                      "type": "string"
+                                    },
+                                    "changePercentage": {
+                                      "type": "string"
+                                    },
+                                    "estimatedValue": {
+                                      "type": "string"
+                                    },
+                                    "last24HoursEstimatedValueChange": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                "TMN": {
+                                  "type": "object",
+                                  "properties": {
+                                    "baseMarketName": {
+                                      "type": "string"
+                                    },
+                                    "changePercentage": {
+                                      "type": "string"
+                                    },
+                                    "estimatedValue": {
+                                      "type": "string"
+                                    },
+                                    "last24HoursEstimatedValueChange": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                "USDT": {
+                                  "type": "object",
+                                  "properties": {
+                                    "changePercentage": {
+                                      "type": "string"
+                                    },
+                                    "estimatedValue": {
+                                      "type": "string"
+                                    },
+                                    "last24HoursEstimatedValueChange": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "symbol": {
+                              "type": "string"
+                            },
+                            "total": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/prop/packages": {
+      "get": {
+        "tags": [
+          "trade-credit"
+        ],
+        "operationId": "propPackagesList",
+        "parameters": [
+          {
+            "name": "",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "headers": {
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Server": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "alt-svc": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "cache-control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-auth-cache-status": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-authenticated": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-envoy-upstream-service-time": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "assurance": {
+                            "type": "string"
+                          },
+                          "currency": {
+                            "type": "string"
+                          },
+                          "daily_fee": {
+                            "type": "string"
+                          },
+                          "daily_fee_after_discount": {
+                            "type": "string"
+                          },
+                          "daily_fee_discount": {
+                            "type": "string"
+                          },
+                          "dark_image_url": {
+                            "type": "string"
+                          },
+                          "destination_currency": {
+                            "nullable": true
+                          },
+                          "expire_days": {
+                            "type": "number"
+                          },
+                          "final_fee": {
+                            "type": "string"
+                          },
+                          "final_fee_after_discount": {
+                            "type": "string"
+                          },
+                          "final_fee_discount": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "number"
+                          },
+                          "light_image_url": {
+                            "type": "string"
+                          },
+                          "liquidity_limit": {
+                            "type": "string"
+                          },
+                          "loan": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "warning_limit": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/prop/packages/{id}": {
+      "get": {
+        "tags": [
+          "trade-credit"
+        ],
+        "operationId": "propPackageDetails",
+        "responses": {
+          "200": {
+            "headers": {
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Server": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "alt-svc": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "cache-control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-auth-cache-status": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-authenticated": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-envoy-upstream-service-time": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "detail": {
+                          "type": "object",
+                          "properties": {
+                            "assurance": {
+                              "type": "string"
+                            },
+                            "currency": {
+                              "type": "string"
+                            },
+                            "daily_fee": {
+                              "type": "string"
+                            },
+                            "daily_fee_after_discount": {
+                              "type": "string"
+                            },
+                            "daily_fee_discount": {
+                              "type": "string"
+                            },
+                            "dark_image_url": {
+                              "type": "string"
+                            },
+                            "destination_currency": {
+                              "nullable": true
+                            },
+                            "expire_days": {
+                              "type": "number"
+                            },
+                            "final_fee": {
+                              "type": "string"
+                            },
+                            "final_fee_after_discount": {
+                              "type": "string"
+                            },
+                            "final_fee_discount": {
+                              "type": "string"
+                            },
+                            "id": {
+                              "type": "number"
+                            },
+                            "light_image_url": {
+                              "type": "string"
+                            },
+                            "liquidity_limit": {
+                              "type": "string"
+                            },
+                            "loan": {
+                              "type": "string"
+                            },
+                            "status": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "warning_limit": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "faq": {
+                          "type": "array",
+                          "items": {}
+                        },
+                        "unavailableMarkets": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/v1/prop/user/packages/history": {
+      "get": {
+        "tags": [
+          "trade-credit"
+        ],
+        "operationId": "userPackageHistoryList",
+        "responses": {
+          "200": {
+            "headers": {
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Server": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "alt-svc": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "cache-control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-auth-cache-status": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-authenticated": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-envoy-upstream-service-time": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-ratelimit-limit": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-ratelimit-remaining": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "applicable_daily_fee": {
+                            "type": "string"
+                          },
+                          "applicable_daily_fee_after_discount": {
+                            "type": "string"
+                          },
+                          "applicable_daily_fee_discount": {
+                            "type": "string"
+                          },
+                          "assurance": {
+                            "type": "string"
+                          },
+                          "client_id": {
+                            "type": "string"
+                          },
+                          "close_reason": {
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "type": "string"
+                          },
+                          "currency": {
+                            "type": "string"
+                          },
+                          "daily_fee": {
+                            "type": "string"
+                          },
+                          "daily_fee_after_discount": {
+                            "type": "string"
+                          },
+                          "daily_fee_discount": {
+                            "type": "string"
+                          },
+                          "dark_image_url": {
+                            "type": "string"
+                          },
+                          "destination_currency": {
+                            "type": "string"
+                          },
+                          "expire_at": {
+                            "type": "string"
+                          },
+                          "expire_days": {
+                            "type": "number"
+                          },
+                          "final_assurance": {
+                            "type": "string"
+                          },
+                          "final_balance": {
+                            "type": "string"
+                          },
+                          "final_balance_without_transfers": {
+                            "type": "string"
+                          },
+                          "final_fee": {
+                            "type": "string"
+                          },
+                          "final_fee_after_discount": {
+                            "type": "string"
+                          },
+                          "final_fee_discount": {
+                            "type": "string"
+                          },
+                          "final_payBack": {
+                            "type": "string"
+                          },
+                          "finished_at": {
+                            "type": "string"
+                          },
+                          "light_image_url": {
+                            "type": "string"
+                          },
+                          "liquidity_limit": {
+                            "type": "string"
+                          },
+                          "loan": {
+                            "type": "string"
+                          },
+                          "open_days": {
+                            "type": "number"
+                          },
+                          "package_title": {
+                            "type": "string"
+                          },
+                          "profit": {
+                            "type": "string"
+                          },
+                          "profit_percentage": {
+                            "type": "string"
+                          },
+                          "start_balance": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string"
+                          },
+                          "total_days": {
+                            "type": "number"
+                          },
+                          "user_id": {
+                            "type": "number"
+                          },
+                          "warning_limit": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "result_info": {
+                      "type": "object",
+                      "properties": {
+                        "count": {
+                          "type": "number"
+                        },
+                        "page": {
+                          "type": "number"
+                        },
+                        "per_page": {
+                          "type": "number"
+                        },
+                        "total_count": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/prop/user/packages/history/{subAccountClientId}": {
+      "get": {
+        "tags": [
+          "trade-credit"
+        ],
+        "operationId": "userPackageHistoryDetails",
+        "responses": {
+          "200": {
+            "headers": {
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Server": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "alt-svc": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "cache-control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-auth-cache-status": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-authenticated": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-envoy-upstream-service-time": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-ratelimit-limit": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-ratelimit-remaining": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "applicable_daily_fee": {
+                          "type": "string"
+                        },
+                        "applicable_daily_fee_after_discount": {
+                          "type": "string"
+                        },
+                        "applicable_daily_fee_discount": {
+                          "type": "string"
+                        },
+                        "assurance": {
+                          "type": "string"
+                        },
+                        "client_id": {
+                          "type": "string"
+                        },
+                        "close_reason": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "currency": {
+                          "type": "string"
+                        },
+                        "daily_fee": {
+                          "type": "string"
+                        },
+                        "daily_fee_after_discount": {
+                          "type": "string"
+                        },
+                        "daily_fee_discount": {
+                          "type": "string"
+                        },
+                        "dark_image_url": {
+                          "type": "string"
+                        },
+                        "destination_currency": {
+                          "type": "string"
+                        },
+                        "expire_at": {
+                          "type": "string"
+                        },
+                        "expire_days": {
+                          "type": "number"
+                        },
+                        "final_assurance": {
+                          "type": "string"
+                        },
+                        "final_balance": {
+                          "type": "string"
+                        },
+                        "final_balance_without_transfers": {
+                          "type": "string"
+                        },
+                        "final_fee": {
+                          "type": "string"
+                        },
+                        "final_fee_after_discount": {
+                          "type": "string"
+                        },
+                        "final_fee_discount": {
+                          "type": "string"
+                        },
+                        "final_payBack": {
+                          "type": "string"
+                        },
+                        "finished_at": {
+                          "type": "string"
+                        },
+                        "light_image_url": {
+                          "type": "string"
+                        },
+                        "liquidity_limit": {
+                          "type": "string"
+                        },
+                        "loan": {
+                          "type": "string"
+                        },
+                        "open_days": {
+                          "type": "number"
+                        },
+                        "package_title": {
+                          "type": "string"
+                        },
+                        "profit": {
+                          "type": "string"
+                        },
+                        "profit_percentage": {
+                          "type": "string"
+                        },
+                        "start_balance": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "string"
+                        },
+                        "total_days": {
+                          "type": "number"
+                        },
+                        "user_id": {
+                          "type": "number"
+                        },
+                        "warning_limit": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "subAccountClientId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/v1/prop/user/packages/overview": {
+      "get": {
+        "tags": [
+          "trade-credit"
+        ],
+        "operationId": "activeUserPackagesOverview",
+        "responses": {
+          "200": {
+            "headers": {
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Server": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "alt-svc": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "cache-control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-auth-cache-status": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-authenticated": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-envoy-upstream-service-time": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-ratelimit-limit": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-ratelimit-remaining": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "aggregatedDetail": {
+                          "type": "object",
+                          "properties": {
+                            "assurance": {
+                              "type": "string"
+                            },
+                            "currency": {
+                              "type": "string"
+                            },
+                            "loan": {
+                              "type": "string"
+                            },
+                            "profit": {
+                              "type": "string"
+                            },
+                            "profitPercentage": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "userPackages": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "balancesHistory": {
+                                "type": "object",
+                                "properties": {
+                                  "perDay": {
+                                    "type": "object",
+                                    "properties": {
+                                      "2025-04-06": {
+                                        "type": "object",
+                                        "properties": {
+                                          "BTC": {
+                                            "type": "number"
+                                          },
+                                          "TMN": {
+                                            "type": "number"
+                                          },
+                                          "USDT": {
+                                            "type": "number"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "total": {
+                                    "type": "object",
+                                    "properties": {
+                                      "BTC": {
+                                        "type": "number"
+                                      },
+                                      "TMN": {
+                                        "type": "number"
+                                      },
+                                      "USDT": {
+                                        "type": "number"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "packageDetail": {
+                                "type": "object",
+                                "properties": {
+                                  "assurance": {
+                                    "type": "string"
+                                  },
+                                  "currency": {
+                                    "type": "string"
+                                  },
+                                  "darkImageUrl": {
+                                    "type": "string"
+                                  },
+                                  "expireDays": {
+                                    "type": "number"
+                                  },
+                                  "lightImageUrl": {
+                                    "type": "string"
+                                  },
+                                  "loan": {
+                                    "type": "string"
+                                  },
+                                  "title": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+                              "userPackageDetail": {
+                                "type": "object",
+                                "properties": {
+                                  "createdAt": {
+                                    "type": "string"
+                                  },
+                                  "expireAt": {
+                                    "type": "string"
+                                  },
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "profit": {
+                                    "type": "string"
+                                  },
+                                  "profitPercentage": {
+                                    "type": "string"
+                                  },
+                                  "status": {
+                                    "type": "string"
+                                  },
+                                  "subAccountClientId": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/prop/user/packages/active": {
+      "get": {
+        "tags": [
+          "trade-credit"
+        ],
+        "operationId": "activeUserPackageDetails",
+        "parameters": [
+          {
+            "name": "sub-account-client-id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "headers": {
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Server": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "alt-svc": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "cache-control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-auth-cache-status": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-authenticated": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-envoy-upstream-service-time": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-ratelimit-limit": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-ratelimit-remaining": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "alertsData": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "balancesHistory": {
+                          "type": "object",
+                          "properties": {
+                            "perDay": {
+                              "type": "object",
+                              "properties": {
+                                "2025-04-06": {
+                                  "type": "object",
+                                  "properties": {
+                                    "BTC": {
+                                      "type": "number"
+                                    },
+                                    "TMN": {
+                                      "type": "number"
+                                    },
+                                    "USDT": {
+                                      "type": "number"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "total": {
+                              "type": "object",
+                              "properties": {
+                                "BTC": {
+                                  "type": "number"
+                                },
+                                "TMN": {
+                                  "type": "number"
+                                },
+                                "USDT": {
+                                  "type": "number"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "packageDetail": {
+                          "type": "object",
+                          "properties": {
+                            "assurance": {
+                              "type": "string"
+                            },
+                            "currency": {
+                              "type": "string"
+                            },
+                            "dailyFee": {
+                              "type": "string"
+                            },
+                            "dailyFeeAfterDiscount": {
+                              "type": "string"
+                            },
+                            "dailyFeeDiscount": {
+                              "type": "string"
+                            },
+                            "darkImageUrl": {
+                              "type": "string"
+                            },
+                            "destination_currency": {
+                              "nullable": true
+                            },
+                            "expireDays": {
+                              "type": "number"
+                            },
+                            "id": {
+                              "type": "number"
+                            },
+                            "lightImageUrl": {
+                              "type": "string"
+                            },
+                            "loan": {
+                              "type": "string"
+                            },
+                            "startBalance": {
+                              "type": "string"
+                            },
+                            "title": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "userPackageDetail": {
+                          "type": "object",
+                          "properties": {
+                            "connectToWallet": {
+                              "nullable": true
+                            },
+                            "createdAt": {
+                              "type": "string"
+                            },
+                            "cyclesCount": {
+                              "type": "number"
+                            },
+                            "debtCyclesCount": {
+                              "type": "number"
+                            },
+                            "expireAt": {
+                              "type": "string"
+                            },
+                            "finalFee": {
+                              "type": "string"
+                            },
+                            "finalFeeAfterDiscount": {
+                              "type": "string"
+                            },
+                            "finalPayableFeeAmount": {
+                              "type": "string"
+                            },
+                            "finalPayback": {
+                              "type": "string"
+                            },
+                            "id": {
+                              "type": "number"
+                            },
+                            "liquidityLimit": {
+                              "type": "string"
+                            },
+                            "openDays": {
+                              "type": "number"
+                            },
+                            "paidCyclesCount": {
+                              "type": "number"
+                            },
+                            "profit": {
+                              "type": "string"
+                            },
+                            "profitPercentage": {
+                              "type": "string"
+                            },
+                            "status": {
+                              "type": "string"
+                            },
+                            "totalDays": {
+                              "type": "number"
+                            },
+                            "type": {
+                              "type": "string"
+                            },
+                            "warningLimit": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/prop/user/packages/{id}/check-availability": {
+      "get": {
+        "tags": [
+          "trade-credit"
+        ],
+        "operationId": "checkPropPackageAvailability",
+        "responses": {
+          "200": {
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Server": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Robots-Tag": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "alt-svc": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "isValid": {
+                            "type": "boolean"
+                          },
+                          "key": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/v1/prop/user/packages": {
+      "post": {
+        "tags": [
+          "trade-credit"
+        ],
+        "operationId": "activateUserPackage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "prop_package_id": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "headers": {
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Server": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "alt-svc": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "cache-control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-auth-cache-status": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-authenticated": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-envoy-upstream-service-time": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-ratelimit-limit": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-ratelimit-remaining": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "clientId": {
+                          "type": "string"
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "darkAvatarUrl": {
+                          "type": "string"
+                        },
+                        "isActive": {
+                          "type": "boolean"
+                        },
+                        "isSuspend": {
+                          "type": "boolean"
+                        },
+                        "lightAvatarUrl": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "userId": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "trade-credit"
+        ],
+        "operationId": "cancelUserPackage",
+        "parameters": [
+          {
+            "name": "sub-account-client-id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "headers": {
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Server": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "alt-svc": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "cache-control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-auth-cache-status": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-authenticated": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-envoy-upstream-service-time": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-ratelimit-limit": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-ratelimit-remaining": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "client_id": {
+                          "type": "string"
+                        },
+                        "currency": {
+                          "type": "string"
+                        },
+                        "final_balance": {
+                          "type": "string"
+                        },
+                        "final_balance_without_transfers": {
+                          "type": "string"
+                        },
+                        "prop_package_id": {
+                          "type": "number"
+                        },
+                        "start_balance": {
+                          "type": "string"
+                        },
+                        "user_id": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/prop/user/packages/connect-to-wallet": {
+      "post": {
+        "tags": [
+          "trade-credit"
+        ],
+        "operationId": "enableConnectToWallet",
+        "parameters": [
+          {
+            "name": "sub-account-client-id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "credit": {
+                    "type": "string"
+                  },
+                  "currency": {
+                    "type": "string"
+                  },
+                  "usageCount": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Server": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Robots-Tag": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "alt-svc": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "credit": {
+                          "type": "string"
+                        },
+                        "currency": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "string"
+                        },
+                        "usageCount": {
+                          "type": "number"
+                        },
+                        "usedCount": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "trade-credit"
+        ],
+        "operationId": "disableConnectToWallet",
+        "parameters": [
+          {
+            "name": "sub-account-client-id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Server": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Robots-Tag": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "alt-svc": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "array",
+                      "items": {}
+                    },
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      }
+    },
+    "/v1/prop/user/packages/enable-renew": {
+      "post": {
+        "tags": [
+          "trade-credit"
+        ],
+        "operationId": "enableUserPackageRenew",
+        "parameters": [
+          {
+            "name": "sub-account-client-id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        },
+        "responses": {
+          "200": {
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Server": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Robots-Tag": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "alt-svc": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "array",
+                      "items": {}
+                    },
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x-api-key": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "x-api-key": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Sub Account"
+    },
+    {
+      "name": "Prop Package"
+    },
+    {
+      "name": "User Package"
+    }
+  ]
+}

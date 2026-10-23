@@ -77,3 +77,19 @@ Backtest FX marks are valuation inputs. Final FX execution now additionally requ
 `fx_market` metadata and fresh recorded USDT/TMN depth, with constrained simulated fills;
 missing evidence leaves USDT explicitly unsettled. SHADOW uses its explicit FX route and
 observed books. No real conversion or order was submitted during verification.
+
+## Official /docs crawl ? 2026-10-23
+
+The current canonical documentation was crawled from sitemap and internal links:
+114 pages, no final page failures, plus five downloadable schemas. See
+[combined technical reference](wallex-reference/WALLEX_REFERENCE.md),
+[coverage](wallex-reference/manifest.json), and
+[key findings](wallex-reference/FINDINGS_FA.md).
+
+New documentary evidence resolves the previously missing REST selector: the official
+spot introduction requires a credit-specific API key and `sub-account-client-id`.
+The credit schema explicitly declares that header on balance/package reads. This
+supersedes the earlier absence-of-contract finding, but does not establish the current
+key's identity, successful selected-account access, or MCP forwarding semantics.
+Cancellation alternatives and the legacy query adapter mismatch are recorded separately.
+No production adapters, permissions, account credentials or LIVE gates changed in this crawl.
