@@ -1,3 +1,17 @@
+> **Automated read-only diagnosis:** the API-discovered active prop ID matches local
+> configuration. Credit wallet reads work through both REST and MCP; fees/open-order
+> reads work through REST. Both active-package and package-overview REST reads return
+> 401, and the MCP package tool also fails. This is partial package-metadata access,
+> not a blanket failed connection. No trading identity/permission grant was inferred.
+> See [the complete diagnostic findings](CREDIT_DIAGNOSTICS.md).
+
+> **Latest read-only diagnostic:** direct REST credit-wallet GET returned HTTP 200
+> with `success: true`, using the configured sub-account context. MCP failed at the
+> active-package-details tool with HTTP 401. Earlier blanket connection-failure wording
+> is superseded by this stage-specific result. Read access is confirmed for that wallet
+> request; account/key identity, trading permission and order routing remain unverified.
+> See [REST diagnostics](WALLEX_ENV.md#isolating-mcp-versus-rest-authorization-errors).
+
 > **New documentary evidence from the full /docs crawl:** official spot introduction
 > requires the credit account's own API key and `sub-account-client-id`. Credit Swagger
 > also declares that selector for wallet/package reads. The earlier statement that no
@@ -108,3 +122,12 @@ and the credit spot order/status/cancel contracts from Wallex or the competition
 Ruff passed and mypy passed for 73 source files after these changes. No automated test
 suite was run in this follow-up, and no exchange order, cancellation, transfer or package
 activation was submitted. The earlier full-suite count is historical, not a fresh result.
+
+## Explicit environment/account context wiring
+
+The five WALLEX_* connection settings and --sub-account-context are now supported by the
+read-only diagnostic. The operator-supplied ID is stored only in ignored .env. Existing
+key values were preserved. MCP selector forwarding and key/order-account binding remain
+unverified; balance equality is not used as proof. See [environment setup](WALLEX_ENV.md).
+No LIVE activation, credit order submission, or fresh private network probe was performed
+in this settings step.

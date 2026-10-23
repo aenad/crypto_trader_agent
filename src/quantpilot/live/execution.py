@@ -4,7 +4,7 @@ import asyncio
 import hashlib
 import os
 from collections.abc import Mapping
-from datetime import datetime, timedelta
+from datetime import datetime
 from decimal import Context, Decimal, localcontext
 from pathlib import Path
 from typing import Protocol
@@ -12,8 +12,10 @@ from zoneinfo import ZoneInfo
 
 from pydantic import SecretStr
 
+from quantpilot.ai.fusion import HybridEvaluator
 from quantpilot.config import stable_id
 from quantpilot.interfaces import Clock
+from quantpilot.lifecycle import LifecycleManager
 from quantpilot.models import (
     AssetBalance,
     Fill,
@@ -44,6 +46,7 @@ D = Decimal
 
 
 class SpotExchange(Protocol):
+    async def verify_account_context(self, selector: str) -> None: ...
     async def close(self) -> None: ...
     async def submit(self, intent: OrderIntent) -> ExchangeOrder: ...
     async def lookup(self, intent: OrderIntent) -> ExchangeOrder: ...
@@ -65,7 +68,16 @@ def require_activation(
         raise Blocked("LIVE_DISABLED")
     if grant.config_id != config.config_id or grant.account_id != config.account_id:
         raise Blocked("AUTHORIZATION_SCOPE_MISMATCH")
-    if not grant.valid_from <= now < grant.expires_at or grant.expires_at < config.deadline:
+    if (
+        grant.account_type != config.account_type
+        or grant.sub_account_client_id != config.sub_account_client_id
+    ):
+        raise Blocked("AUTHORIZATION_ACCOUNT_CONTEXT_MISMATCH")
+    if config.account_type == "CREDIT_SPOT" and grant.balance_value_semantics != "FREE":
+        raise Blocked("CREDIT_AVAILABLE_BALANCE_SEMANTICS_REQUIRED")
+    if not grant.valid_from <= now < grant.expires_at or (
+        config.deadline is not None and grant.expires_at < config.deadline
+    ):
         raise Blocked("AUTHORIZATION_EXPIRED_OR_TOO_SHORT")
     if not (grant.spot_read and grant.spot_trade and grant.withdrawal_disabled):
         raise Blocked("ACCOUNT_PERMISSIONS_NOT_APPROVED")
@@ -96,10 +108,17 @@ def activated_adapter(
                 raise Blocked("KILL_SWITCH_ACTIVE")
             if store.get("suspended") is not None and record.intent.side == "BUY":
                 raise Blocked("TRADING_SUSPENDED")
-            if clock.now() >= config.deadline:
+            if config.expired(clock.now()):
                 raise Blocked("CHALLENGE_DEADLINE_PASSED")
 
-    exchange = WallexSpotREST(key, authorize_mutation=authorize_wire_mutation)
+    if config.sub_account_client_id is not None:
+        exchange = WallexSpotREST(
+            key,
+            authorize_mutation=authorize_wire_mutation,
+            sub_account_client_id=SecretStr(config.sub_account_client_id),
+        )
+    else:
+        exchange = WallexSpotREST(key, authorize_mutation=authorize_wire_mutation)
     return ProtectedExecution(config, grant, store, clock, exchange, env)
 
 
@@ -125,7 +144,9 @@ class ProtectedExecution:
         self._reconciled: datetime | None = None
         self._snapshots: dict[str, MarketSnapshot] = {}
         self._authorizations: dict[str, tuple[OrderIntent, Decimal, str]] = {}
-        self._maximum_quantities: dict[str, Decimal] = {}
+        self._entry_signals: dict[str, Signal] = {}
+        self._ai_approvals: dict[str, OrderIntent] = {}
+        self._maximum_quantities: dict[str, Decimal | None] = {}
         require_activation(config, grant, clock.now(), environ)
         if store.get("config") != config.config_id:
             raise Blocked("STORE_SCOPE_MISMATCH")
@@ -135,6 +156,7 @@ class ProtectedExecution:
                 grant.account_type,
                 grant.credential_sha256,
                 grant.balance_value_semantics,
+                grant.sub_account_client_id,
             ]
         )
         previous = store.get("account_binding")
@@ -154,6 +176,7 @@ class ProtectedExecution:
         if old_implementation is not None and old_implementation != implementation:
             raise Blocked("EXECUTION_IMPLEMENTATION_CHANGED")
         with store.db:
+            self.lifecycle = LifecycleManager(store)
             store.set("account_binding", binding)
             store.set("implementation", implementation)
             store.audit(
@@ -172,7 +195,70 @@ class ProtectedExecution:
 
     async def close(self) -> None:
         """Close transport resources; caller owns the execution journal lifetime."""
+        with self.store.db:
+            self.lifecycle.command("GRACEFUL_SHUTDOWN")
         await self._exchange.close()
+        with self.store.db:
+            self.lifecycle.stopped()
+
+    def _clear_authorizations(self) -> None:
+        self._authorizations.clear()
+        self._entry_signals.clear()
+        self._ai_approvals.clear()
+
+    def revoke_authorization(self, client_id: str) -> None:
+        self._authorizations.pop(client_id, None)
+        self._entry_signals.pop(client_id, None)
+        self._ai_approvals.pop(client_id, None)
+
+    async def evaluate_entry(self, intent: OrderIntent, evaluator: HybridEvaluator) -> bool:
+        """Bind hybrid acceptance to the exact risk-authorized intent and market cut."""
+        signal = self._entry_signals.get(intent.client_id)
+        grant = self._authorizations.get(intent.client_id)
+        if (
+            intent.side != "BUY"
+            or signal is None
+            or grant is None
+            or grant[0] != intent
+            or self.config.ai.mode == "QUANT_ONLY"
+            or evaluator.mode != self.config.ai.mode
+            or evaluator.model.metadata.get("live_enabled") is not True
+        ):
+            raise Blocked("HYBRID_ENTRY_CONTEXT_REQUIRED")
+        self._validate_intent(intent, False)
+        snapshot = self._market_context(intent.symbol)
+        try:
+            analysis = await evaluator.evaluate(signal, snapshot)
+            if (
+                self._authorizations.get(intent.client_id) != grant
+                or self._entry_signals.get(intent.client_id) != signal
+            ):
+                raise Blocked("HYBRID_CONTEXT_CHANGED")
+            self._validate_intent(intent, False)
+            with self.store.db:
+                self.store.audit(
+                    "HYBRID_EVALUATION",
+                    {
+                        "client_id": intent.client_id,
+                        "signal_id": stable_id(signal.model_dump(mode="json")),
+                        "analysis": analysis.model_dump(mode="json"),
+                        "candidate": evaluator.recommendations[-1].model_dump(mode="json"),
+                    },
+                )
+            if analysis.verdict != "ACCEPT":
+                self.revoke_authorization(intent.client_id)
+                return False
+            self._ai_approvals[intent.client_id] = intent
+            return True
+        except BaseException:
+            self.revoke_authorization(intent.client_id)
+            raise
+
+    def control(self, operation: str) -> None:
+        with self.store.db:
+            self.lifecycle.command(operation)
+            self._clear_authorizations()
+            self.store.audit("LIFECYCLE_CONTROL", {"operation": operation})
 
     def _gate(self, *, allow_suspension: bool = False, cancel_only: bool = False) -> None:
         require_activation(self.config, self.grant, self.clock.now(), self._env)
@@ -184,7 +270,7 @@ class ProtectedExecution:
             raise Blocked("TRADING_SUSPENDED")
 
     def kill(self) -> None:
-        self._authorizations.clear()
+        self._clear_authorizations()
         self.store.kill_path.touch(exist_ok=True)
         self.store.latch("OPERATOR_KILL", kill=True)
 
@@ -207,6 +293,8 @@ class ProtectedExecution:
     async def bootstrap(self) -> None:
         """Adopt only an empty dedicated main-spot account funded with the exact Toman budget."""
         async with self._lock:
+            if self.config.sub_account_client_id is not None:
+                await self._exchange.verify_account_context(self.config.sub_account_client_id)
             if self.store.portfolio() is not None:
                 raise Blocked("ALREADY_INITIALIZED")
             balances = await self._exchange.balances(self.grant.balance_value_semantics)
@@ -312,7 +400,7 @@ class ProtectedExecution:
 
     def _unknown(self, record: OrderRecord) -> None:
         self._reconciled = None
-        self._authorizations.clear()
+        self._clear_authorizations()
         record = self.store.order(record.intent.client_id) or record
         self.store.save(
             record.model_copy(
@@ -361,7 +449,7 @@ class ProtectedExecution:
             )
             self.store.save(record)
             self._reconciled = None
-            self._authorizations.clear()
+            self._clear_authorizations()
             try:
                 await self._exchange.cancel(record.intent)
                 return await self._lookup(record)  # Cancellation can race with the final fill.
@@ -372,7 +460,7 @@ class ProtectedExecution:
     async def recover(self, snapshots: tuple[MarketSnapshot, ...], attempts: int = 3) -> None:
         """Bounded read retries/backoff. Successful reconciliation does not clear a latched halt."""
         async with self._lock:
-            self._authorizations.clear()
+            self._clear_authorizations()
             self._reconciled = None
             self._snapshots = {s.symbol: s for s in snapshots}
             if len(self._snapshots) != len(snapshots) or not 1 <= attempts <= 5:
@@ -389,6 +477,8 @@ class ProtectedExecution:
                     await asyncio.sleep(min(0.1 * 2**attempt, 1))
 
     async def _reconcile(self) -> None:
+        if self.config.sub_account_client_id is not None:
+            await self._exchange.verify_account_context(self.config.sub_account_client_id)
         for record in self.store.orders():
             if record.state not in TERMINAL or record.phase != "OBSERVED":
                 await self._lookup(record)
@@ -427,7 +517,11 @@ class ProtectedExecution:
                 or market.taker_fee_rate > self.config.max_fee_rate
             ):
                 raise Blocked("MARKET_LIMITS_OR_FEES_CHANGED")
-            self._maximum_quantities[market.symbol] = decimal(row["maxQty"])
+            # The verified endpoint may omit a venue maximum. Do not invent one;
+            # risk, local fee-aware caps and executable depth remain mandatory.
+            self._maximum_quantities[market.symbol] = (
+                decimal(row["maxQty"]) if "maxQty" in row else None
+            )
         active = {r.intent.client_id for r in self.store.orders() if r.state not in TERMINAL}
         if await self._exchange.open_ids() != active:
             raise Blocked("EXTERNAL_OR_MISSING_OPEN_ORDERS")
@@ -522,6 +616,15 @@ class ProtectedExecution:
         if portfolio is None or portfolio.risk_halted:
             raise Blocked("RISK_SUSPENSION_LATCHED")
         with self.store.db:
+            self.lifecycle.resume(
+                reconciled=True,
+                orders_known=all(
+                    r.state != OrderState.UNKNOWN and r.phase not in {"SUBMITTING", "CANCELING"}
+                    for r in self.store.orders()
+                ),
+                risk_ok=True,
+                authorized=True,
+            )
             self.store.db.execute("DELETE FROM live_meta WHERE key='suspended'")
             self.store.audit("OPERATOR_RESUME", {"as_of": self.clock.now().isoformat()})
 
@@ -535,12 +638,15 @@ class ProtectedExecution:
         )
         return {
             "mode": "LIVE",
+            "operating_profile": self.config.operating_profile.value,
+            "lifecycle": self.lifecycle.state.value,
             "config_id": self.config.config_id,
             "reconciled": fresh,
             "kill": self.store.get("kill") is not None or self.store.kill_path.exists(),
             "suspension": self.store.get("suspended"),
             "unknown_orders": sum(r.state == OrderState.UNKNOWN for r in self.store.orders()),
             "ready": fresh
+            and self.lifecycle.permits("BUY")
             and not self.store.get("kill")
             and not self.store.kill_path.exists()
             and not self.store.get("suspended"),
@@ -574,8 +680,8 @@ class ProtectedExecution:
                 sum(r.state not in TERMINAL for r in records),
             )
             report["as_of"] = self._reconciled.isoformat()
-            report["competition_complete"] = (
-                self.clock.now() >= self.config.deadline and bool(report["fully_settled_tmn"])
+            report["competition_complete"] = self.config.expired(self.clock.now()) and bool(
+                report["fully_settled_tmn"]
             )
             return report
         except ValueError as exc:
@@ -594,11 +700,11 @@ class ProtectedExecution:
     def authorize(self, signal: Signal, client_id: str) -> OrderIntent:
         """Only same-core recomputed risk can authorize an entry; no AI/tool bypass."""
         self._gate(allow_suspension=signal.action == "SELL")
+        if not self.lifecycle.permits(signal.action):
+            raise Blocked("LIFECYCLE_NOT_RUNNING")
         if not ID.fullmatch(client_id):
             raise Blocked("INVALID_CLIENT_ID")
-        if self.clock.now() >= self.config.deadline - timedelta(
-            seconds=self.config.liquidation_seconds
-        ):
+        if signal.action == "BUY" and not self.config.entries_allowed(self.clock.now()):
             raise Blocked("LIQUIDATION_WINDOW")
         portfolio = self.store.portfolio()
         if portfolio is None or self._reconciled is None:
@@ -658,14 +764,19 @@ class ProtectedExecution:
             limit_price=price,
         )
         self._authorizations[client_id] = (intent, signal.atr or D(1), "STRATEGY")
+        self._ai_approvals.pop(client_id, None)
+        if signal.action == "BUY":
+            self._entry_signals[client_id] = signal
         return intent
 
     def _validate_intent(self, intent: OrderIntent, liquidation: bool) -> None:
         self._gate(allow_suspension=liquidation or intent.side == "SELL")
+        if not liquidation and not self.lifecycle.permits(intent.side):
+            raise Blocked("LIFECYCLE_NOT_RUNNING")
         if self._reconciled is None:
             raise Blocked("RECONCILIATION_REQUIRED")
         self._fresh(self._reconciled)
-        if self.clock.now() >= self.config.deadline:
+        if self.config.expired(self.clock.now()):
             raise Blocked("CHALLENGE_DEADLINE_PASSED")
         snapshot = self._market_context(intent.symbol)
         market, book = snapshot.market, snapshot.liquidity
@@ -681,9 +792,14 @@ class ProtectedExecution:
             or q * price < market.minimum_notional
         ):
             raise Blocked("ORDER_SIZE_OR_PRECISION")
-        if q > self._maximum_quantities.get(intent.symbol, D(0)):
+        maximum = self._maximum_quantities.get(intent.symbol, D(0))
+        if maximum is not None and q > maximum:
             raise Blocked("MAXIMUM_ORDER_QUANTITY")
-        if intent.side == "BUY" and q * price > self.config.max_order_tmn:
+        if (
+            intent.side == "BUY"
+            and self.config.max_order_tmn is not None
+            and q * price * (1 + self.config.max_fee_rate) > self.config.max_order_tmn
+        ):
             raise Blocked("ORDER_BUDGET_EXCEEDED")
         base = intent.symbol.split("/")[0]
         portfolio = self.store.portfolio()
@@ -737,8 +853,16 @@ class ProtectedExecution:
                 # Even PREPARED is never resent automatically: operator creates a new reviewed ID.
                 return existing.state
             grant = self._authorizations.pop(intent.client_id, None)
+            self._entry_signals.pop(intent.client_id, None)
+            ai_approval = self._ai_approvals.pop(intent.client_id, None)
             if grant is None or grant[0] != intent:
                 raise Blocked("ORDER_NOT_AUTHORIZED")
+            if (
+                intent.side == "BUY"
+                and self.config.ai.mode != "QUANT_ONLY"
+                and ai_approval != intent
+            ):
+                raise Blocked("HYBRID_ACCEPTANCE_REQUIRED")
             liquidation = grant[2] == "FINAL_LIQUIDATION"
             self._validate_intent(intent, liquidation)
             record = OrderRecord(
@@ -748,7 +872,7 @@ class ProtectedExecution:
             record = record.model_copy(update={"phase": "SUBMITTING"})
             self.store.save(record)  # Durable uncertain-send boundary BEFORE any network await.
             self._reconciled = None
-            self._authorizations.clear()
+            self._clear_authorizations()
             try:
                 return self._observe(record, await self._exchange.submit(intent))
             except asyncio.CancelledError:
@@ -791,9 +915,9 @@ class ProtectedExecution:
         """
         self._gate(allow_suspension=True)
         now = self.clock.now()
-        if now < self.config.deadline - timedelta(seconds=self.config.liquidation_seconds):
+        if not self.config.settling(now):
             raise Blocked("NOT_IN_LIQUIDATION_WINDOW")
-        if now >= self.config.deadline:
+        if self.config.expired(now):
             raise Blocked("CHALLENGE_DEADLINE_PASSED")
         await self.recover(snapshots)
         for record in self.store.orders():

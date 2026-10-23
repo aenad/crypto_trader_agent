@@ -3,6 +3,7 @@
 import asyncio
 import json
 import time
+from contextlib import suppress
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -44,12 +45,31 @@ class ShadowSession:
             result = await self.engine.apply(frame)
             self.store.commit(seq, result, self.engine.dump(), self.seq)
             self.seq = seq
-        except BaseException:
+        except BaseException as exc:
             # Resolve a local commit's ambiguous return before continuing. A
             # checkpoint is authoritative if the transaction already committed.
             persisted_seq, persisted = self.store.checkpoint()
             self.engine.restore(persisted)
             self.seq = persisted_seq
+            # Existing operational journal, separate from atomic financial state.
+            # Logging must not mask the original failure or change rollback semantics.
+            with suppress(Exception):
+                execution_error = self.engine.last_execution_error
+                self.store.operational(
+                    {
+                        "kind": "EXECUTION_ERROR" if execution_error else "FRAME_PROCESSING_FAILED",
+                        "reason_code": "SIMULATED_EXECUTION_FAILED"
+                        if execution_error
+                        else "FRAME_PROCESSING_FAILED",
+                        "exception_type": type(exc).__name__,
+                        "seq": seq,
+                        "frame_id": frame.frame_id,
+                        "operation": execution_error["operation"]
+                        if execution_error
+                        else "REDUCER_OR_COMMIT",
+                        "commit_present": persisted_seq == seq,
+                    }
+                )
             raise
         self.store.operational(
             {

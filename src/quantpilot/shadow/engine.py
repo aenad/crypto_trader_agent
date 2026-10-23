@@ -1,9 +1,10 @@
 """Deterministic frame reducer reusing strategy, risk, AI fusion and Decimal ledger."""
 
+from collections.abc import Awaitable
 from copy import deepcopy
-from datetime import datetime, timedelta
+from datetime import datetime
 from decimal import ROUND_CEILING, ROUND_FLOOR, Context, Decimal, localcontext
-from typing import Any
+from typing import Any, TypeVar
 from zoneinfo import ZoneInfo
 
 from quantpilot.backtest.history import HistoricalClock
@@ -20,6 +21,7 @@ from .execution import ShadowExecutionProvider
 from .state import dump_ledger, dump_orders, load_ledger, load_orders
 
 D = Decimal
+T = TypeVar("T")
 
 
 class ShadowEngine:
@@ -33,6 +35,17 @@ class ShadowEngine:
         self.funded = False
         self.last_frame: str | None = None
         self.latest_portfolio: dict[str, Any] | None = None
+        self.last_execution_error: dict[str, str] | None = None
+
+    async def _execute(self, operation: str, call: Awaitable[T]) -> T:
+        try:
+            return await call
+        except BaseException as exc:
+            self.last_execution_error = {
+                "operation": operation,
+                "exception_type": type(exc).__name__,
+            }
+            raise
 
     def dump(self) -> dict[str, Any]:
         return {
@@ -89,6 +102,7 @@ class ShadowEngine:
         return pairs, bool(fx_fresh)
 
     async def apply(self, frame: ShadowFrame) -> dict[str, Any]:
+        self.last_execution_error = None
         before = self.dump()
         try:
             with localcontext(Context(prec=34)):
@@ -127,10 +141,8 @@ class ShadowEngine:
             rates = (QuoteConversion(quote="USDT", tmn_per_unit=rate, as_of=frame.fx_book.as_of),)
             if fx_fresh:
                 self.marks["USDT"] = rate
-        settling = cfg.deadline is not None and now >= cfg.deadline - timedelta(
-            seconds=cfg.liquidation_seconds
-        )
-        expired = cfg.deadline is not None and now >= cfg.deadline
+        settling = cfg.settling(now)
+        expired = cfg.expired(now)
         if not self.funded and fx_fresh and not settling:
             if self.ledger.day is None:
                 self.ledger.day = now.astimezone(ZoneInfo("Asia/Tehran")).date()
@@ -171,7 +183,7 @@ class ShadowEngine:
         if len(fresh) != len(cfg.approved) or settling:
             for order in self.execution.active():
                 if order.intent.side == "BUY" or expired:
-                    await self.execution.cancel(order.intent.client_id)
+                    await self._execute("cancel", self.execution.cancel(order.intent.client_id))
         # Marked loss stops must cancel previously approved entries BEFORE fills.
         portfolio = self.portfolio(frame, rates)
         equity, day, peak = (
@@ -187,23 +199,28 @@ class ShadowEngine:
         if self.ledger.halted:
             for order in self.execution.active():
                 if order.intent.side == "BUY":
-                    await self.execution.cancel(order.intent.client_id)
+                    await self._execute("cancel", self.execution.cancel(order.intent.client_id))
         for order in self.execution.active():
             position = self.ledger.positions.get(order.intent.symbol)
             snapshot = snapshots[order.intent.symbol]
             if order.intent.side == "BUY" and position is not None and snapshot.candles:
                 reason, _ = exit_signal(position, snapshot.candles[-1], None, now, cfg.research)
                 if reason:
-                    await self.execution.cancel(order.intent.client_id)
+                    await self._execute("cancel", self.execution.cancel(order.intent.client_id))
         # All fills consume only later, genuinely observed public depth.
         for pair in sorted(fresh):
-            await self.execution.on_book(
-                snapshots[pair], D(1) if pair.endswith("/TMN") else self.marks["USDT"]
+            await self._execute(
+                "fill",
+                self.execution.on_book(
+                    snapshots[pair], D(1) if pair.endswith("/TMN") else self.marks["USDT"]
+                ),
             )
         settlement = []
         if settling and not expired:
             for pair in sorted(fresh):
-                settlement.append(await self.execution.settle(snapshots[pair]))
+                settlement.append(
+                    await self._execute("settle", self.execution.settle(snapshots[pair]))
+                )
             if fx_fresh:
                 self.settle_quote(frame)
         strategy = MomentumBreakout(cfg.research, MarketEligibilityFilter(cfg.approved))
@@ -222,7 +239,7 @@ class ShadowEngine:
             if signal.action == "SELL":
                 for order in self.execution.active(pair):
                     if order.intent.side == "BUY":
-                        await self.execution.cancel(order.intent.client_id)
+                        await self._execute("cancel", self.execution.cancel(order.intent.client_id))
                 portfolio = self.portfolio(frame, rates)
             ai = await self.ai.evaluate(signal, snapshot) if pair in fresh else None
             risk = manager.check(signal, portfolio)
@@ -237,7 +254,9 @@ class ShadowEngine:
             if signal.action != "BUY":
                 ai_accept = True
             outcome = (
-                "STALE"
+                "PROFILE_ENTRY_BLOCKED"
+                if signal.action == "BUY" and not cfg.entries_allowed(now)
+                else "STALE"
                 if pair not in fresh or (signal.action == "BUY" and len(fresh) != len(cfg.approved))
                 else "HOLD"
                 if signal.action == "HOLD"
@@ -273,23 +292,26 @@ class ShadowEngine:
                     risk.reference_price,
                     D(1) if pair.endswith("/TMN") else self.marks["USDT"],
                 )
-                await self.execution.submit(
-                    OrderIntent(
-                        client_id=decision_id,
-                        decision_id=decision_id,
-                        account_id="shadow",
-                        symbol=pair,
-                        side=signal.action,
-                        order_type="MARKET",
-                        base_quantity=risk.quantity,
-                    )
+                await self._execute(
+                    "submit",
+                    self.execution.submit(
+                        OrderIntent(
+                            client_id=decision_id,
+                            decision_id=decision_id,
+                            account_id="shadow",
+                            symbol=pair,
+                            side=signal.action,
+                            order_type="MARKET",
+                            base_quantity=risk.quantity,
+                        )
+                    ),
                 )
             decisions.append({"decision_id": decision_id, **record})
             self.last_decided[pair] = bar
         if self.ledger.halted:
             for order in self.execution.active():
                 if order.intent.side == "BUY":
-                    await self.execution.cancel(order.intent.client_id)
+                    await self._execute("cancel", self.execution.cancel(order.intent.client_id))
         portfolio = self.portfolio(frame, rates)
         self.latest_portfolio = portfolio.model_dump(mode="json")
         self.last_frame = frame.frame_id

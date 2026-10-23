@@ -1,6 +1,6 @@
 """Single-process historical event loop using the unmodified Phase 3 engines."""
 
-from datetime import datetime, timedelta
+from datetime import datetime
 from decimal import ROUND_FLOOR, Context, Decimal, localcontext
 from typing import Any
 
@@ -125,11 +125,12 @@ class HistoricalReplay:
                 p.fx_fee,
                 first,
             )
-        entry_cutoff = max(events) - timedelta(seconds=self.data.simulation.liquidation_seconds)
+        policy = self.data.simulation
+        terminal = max(events)
         for now, event in sorted(events.items()):
             self.clock.advance(now)
             conversions = self.conversions(now)
-            if now >= entry_cutoff:
+            if not policy.entries_allowed(now, terminal):
                 for order in self.execution.active():
                     if order.intent.side == "BUY":
                         await self.execution.cancel(order.intent.client_id)
@@ -199,7 +200,7 @@ class HistoricalReplay:
                     self.risk_parameters, self.data.research, eligibility, snapshots, ("backtest",)
                 )
                 decision = manager.check(signal, portfolio)
-                if signal.action == "BUY" and now >= entry_cutoff:
+                if signal.action == "BUY" and not policy.entries_allowed(now, terminal):
                     decision = decision.model_copy(
                         update={"allowed": False, "reasons": ("COMPETITION_ENTRY_CUTOFF",)}
                     )
@@ -263,7 +264,8 @@ class HistoricalReplay:
                     now,
                 )
             self.sample(now)
-        await self.liquidate(max(events))
+        if policy.settling(terminal, terminal):
+            await self.liquidate(terminal)
         self.sample(max(events))
         from .reports import build_report
 

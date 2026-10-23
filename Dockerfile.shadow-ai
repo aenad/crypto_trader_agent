@@ -1,0 +1,9 @@
+FROM python:3.13-slim
+WORKDIR /app
+COPY pyproject.toml ./
+COPY src/quantpilot ./src/quantpilot
+RUN pip install --no-cache-dir '.[marketdata,ai]'
+COPY config/shadow-ai.deploy.json /app/config/shadow-ai.deploy.json
+RUN mkdir -p /app/data && chown 65534:65534 /app/data
+USER 65534:65534
+CMD ["python", "-m", "quantpilot.shadow.cli", "start", "--config", "/app/config/shadow-ai.deploy.json", "--db", "/app/data/session.sqlite", "--responses", "/app/data/responses", "--env-file", "/run/secrets/llm_env", "--allow-llm-network"]

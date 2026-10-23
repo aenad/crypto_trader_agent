@@ -456,7 +456,7 @@ def test_usdt_replay_retains_fx_when_no_terminal_spot_route():
     assert len(result["ledger"]) == 1  # Explicit research funding assumption only.
     assert result["remaining_holdings"]["USDT"] != "0"
     assert not metrics["fully_settled_tmn"]
-    assert result["residual_positions"][-1]["reason"] == "NO_VERIFIED_TERMINAL_FX_EXECUTION_ROUTE"
+    assert result["residual_positions"] == []  # Continuous replay does not force settlement.
     # Funding fee is in the remaining quote's basis, not prematurely realized.
     assert D(metrics["realized_pnl_tmn"]) == 0
     assert abs(D(metrics["unrealized_pnl_tmn"]) + D(metrics["total_fees_tmn"])) < D("1e-20")

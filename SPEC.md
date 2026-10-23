@@ -1,5 +1,58 @@
 # Wallex QuantPilot — authoritative specification
 
+Trading diagnostics update: `quantpilot.diagnostics` exports counts and coded
+rejection reasons from existing frozen SHADOW journals and backtest reports.
+Operational execution failures are recorded separately from atomic financial
+state; raw exception messages are not exported. No strategy thresholds, risk
+limits or LIVE activation policy changed. See `docs/TRADING_BLOCKER_REPORT.md`.
+
+## Operating profile correction
+
+Readiness correction: hybrid acceptance is now bound at the protected execution
+boundary, not only in the service loop. Read-only metadata preparation creates
+disabled credit candidates preserving prior scope/deadline and leaving account
+market permission unverified. `python -m quantpilot.readiness` reports exact model,
+LLM and training prerequisites without activation. See `docs/CURRENT_FIX_STATUS.md`.
+
+Hybrid/credit integration correction: the protected adapter now represents reviewed
+CREDIT_SPOT scope with an explicit selector and separate key-scope/routing review
+references. Discovery validates active prop state and balance reads use documented
+available/freeze/total fields; these reads do not establish key ownership or order
+routing. No real mutation certification or LIVE activation is implied. Hybrid mode
+can construct a shared model/analyst evaluator and inject it into the execution
+service; missing evaluator or research-only model blocks hybrid LIVE. BoxAPI's
+documented chat protocol is supported alongside the private JSON gateway contract.
+See `docs/HYBRID_CREDIT_FIXES.md` for evidence and remaining prerequisites.
+
+Protected-execution readiness update: `quantpilot.live.service` adds an injectable
+continuous coordinator with explicit startup/resume, periodic reconciliation,
+bounded failure handling and shutdown without liquidation. Cancellation now follows
+the captured Swagger JSON-body contract. These changes have offline mock evidence;
+credit authorization remains blocked pending independent account/routing evidence.
+See `docs/LIVE_READINESS_REVIEW.md`. No activation command or LIVE enablement added.
+
+Wallex QuantPilot is a reusable continuous SPOT/LONG_ONLY platform. The competition
+is an optional operating scenario, not its lifetime. Execution modes BACKTEST,
+SHADOW and LIVE remain independent of CONTINUOUS (default) and COMPETITION.
+Both use the existing strategy, AI veto/fusion, deterministic risk, execution safety,
+accounting and replay. Continuous has no calendar deadline or automatic terminal
+liquidation; strategy stops and maximum holding durations still apply. HOLD is valid.
+Competition may configure start, entry cutoff, end and final liquidation. A historical
+competition replay without an explicit end uses its input terminal timestamp.
+
+Profile fields use existing JSON configuration conventions and are included in
+configuration identities. Legacy deadline-bearing configurations infer COMPETITION;
+explicit CONTINUOUS plus competition timing is rejected. Old source/config-pinned
+journals require their original implementation or reviewed migration, never hash edits.
+
+Sizing uses current reconciled equity, free funds, reserved exposure, stop distance,
+fees/slippage and observed liquidity. Risk and position/portfolio limits remain
+mandatory. Absolute hard caps are optional under explicit configuration; 500,000 TMN
+remains the legacy-compatible default. These parameters are research controls, not
+optimality claims. No AI may change them. Lifecycle stop controls do not create sells.
+LIVE remains disabled by default; expiring authorization and recovery checks remain
+mandatory even for indefinite continuous operation. Credit execution remains unverified.
+
 Phase 8 update: `src/dashboard` adds the React/TypeScript judge dashboard;
 `quantpilot.dashboard` supplies read-only FastAPI projections and provisional
 competition reports from catalog-approved local artifacts and SHADOW checkpoints.

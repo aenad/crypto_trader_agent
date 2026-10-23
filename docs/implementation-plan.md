@@ -2,6 +2,24 @@
 
 Authority: ../SPEC.md. The plan below retains Phase 0's original phase numbering.
 
+## Continuous-operation migration
+
+- Separate operating profile from transport in existing configs; default continuous.
+- Reuse strategy/risk/accounting/AI and existing recovery journals in both profiles.
+- Make terminal backtest settlement opt-in, retain legacy deadline interpretation.
+- Extract time-independent sizing and add equity/optional absolute caps to risk.
+- Persist explicit LIVE lifecycle controls; startup/restart requires reconciliation
+  and operator resume. Shutdown does not request liquidation.
+- Preserve 500,000 TMN legacy cap unless reviewed configuration changes it.
+- Test profile cross-product, time-independent sizing, shutdown and restart using
+  synthetic data and mock exchange only. No actual LIVE activation or orders.
+
+Compatibility: configuration/source identities change. Old immutable sessions need
+their original source/config or a separately reviewed migration; never rewrite pins.
+For old historical runs that relied on end-of-data settlement, explicitly set
+`operating_profile: COMPETITION` and `force_final_liquidation: true` in simulation.
+New default continuous runs retain open/dust holdings at input exhaustion.
+
 ## Current implementation status — user-requested Phase 8
 
 The read-only React/TypeScript + FastAPI dashboard, explicit artifact catalog,

@@ -44,6 +44,8 @@ class ResearchParameters(DomainModel):
 
 
 class RiskParameters(DomainModel):
+    max_order_equity_fraction: PositiveAmount = Field(default=Decimal("0.10"), le=1)
+    absolute_order_hard_cap_tmn: PositiveAmount | None = Decimal("500000")
     version: str = "deterministic_risk_v1"
     risk_per_trade: PositiveAmount = Field(default=Decimal("0.005"), le=Decimal("0.005"))
     max_positions: int = Field(default=2, ge=1)

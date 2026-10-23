@@ -44,9 +44,7 @@ class HistoricalMarketDataProvider:
         self.research, self.simulation = research, simulation
         self.quotes = quotes or {}
         self.fx_market = fx_market
-        if fx_market is not None and (
-            fx_market.symbol != "USDT/TMN" or fx_market.quote != "TMN"
-        ):
+        if fx_market is not None and (fx_market.symbol != "USDT/TMN" or fx_market.quote != "TMN"):
             raise ValueError("Explicit spot USDT/TMN settlement route required")
         if not candles:
             raise ValueError("Nonempty historical universe required")

@@ -69,11 +69,11 @@ def build_report(run: "HistoricalReplay") -> dict[str, Any]:
             "Market orders: next bar open with adverse spread/slippage; prior-volume cap",
             "Limits: strict penetration, no price improvement; close-time volume cap",
             "Protective exits evaluated by unchanged Phase 3 close-bar policy, executed next open",
-            "Terminal auction: final close discounted by spread/slippage/haircut; volume cap",
+            "Opt-in terminal auction: adverse costs/volume cap; continuous retains holdings",
             "Spot inventory average-cost basis; quote FX gains separately realized in TMN",
             "Initial USDT funding is an explicit rate/fee research assumption",
             "Terminal USDT sale requires explicit enabled FX route and fresh recorded bids",
-            "New entries stop before the configured terminal liquidation window",
+            "Operating profile controls entry cutoff and optional terminal liquidation",
             "Static market permissions/fees/constraints over input interval; no queue model",
         ],
     }
@@ -122,7 +122,8 @@ def build_report(run: "HistoricalReplay") -> dict[str, Any]:
         },
         "residual_positions": run.residuals,
         "remaining_holdings": {
-            asset: str(h.quantity) for asset, h in sorted(run.ledger.holdings.items())
+            asset: str(h.quantity)
+            for asset, h in sorted(run.ledger.holdings.items())
             if asset != "TMN" and h.quantity > 0
         },
         "equity_curve": curve,

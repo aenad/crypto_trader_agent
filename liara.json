@@ -1,0 +1,6 @@
+{
+  "$schema": "https://raw.githubusercontent.com/liara-cloud/liara-cli/master/src/commands/init/schema.json",
+  "platform": "docker",
+  "port": 8080,
+  "dockerfile": "Dockerfile.dashboard-web"
+}

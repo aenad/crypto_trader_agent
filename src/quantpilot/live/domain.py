@@ -3,10 +3,11 @@
 import hashlib
 from datetime import datetime
 from decimal import Decimal
-from typing import Literal, Self
+from typing import Any, Literal, Self
 
 from pydantic import Field, SecretStr, model_validator
 
+from quantpilot.ai.runtime import HybridRuntimeConfig
 from quantpilot.config import stable_id
 from quantpilot.marketdata.domain import canonical_pair
 from quantpilot.models import (
@@ -18,6 +19,7 @@ from quantpilot.models import (
     OrderState,
     PositiveAmount,
 )
+from quantpilot.profiles import ProfileConfig
 from quantpilot.spot import SpotPolicy
 from quantpilot.trading.config import ResearchParameters, RiskParameters
 
@@ -26,16 +28,37 @@ class Blocked(RuntimeError):
     """A fixed safe reason code, never an exchange body or credential."""
 
 
-class LiveConfig(DomainModel):
+class LiveConfig(ProfileConfig):
+    @model_validator(mode="before")
+    @classmethod
+    def legacy_cap(cls, value: Any) -> Any:
+        if isinstance(value, dict):
+            value = dict(value)
+            risk = value.get("risk", {})
+            risk = risk.model_dump() if isinstance(risk, RiskParameters) else dict(risk)
+            old = value.get("max_order_tmn", risk.get("absolute_order_hard_cap_tmn", "500000"))
+            if "absolute_order_hard_cap_tmn" in risk and risk["absolute_order_hard_cap_tmn"] != old:
+                # Decimal and JSON strings are equivalent monetary representations.
+                other = risk["absolute_order_hard_cap_tmn"]
+                if old is None or other is None or Decimal(str(old)) != Decimal(str(other)):
+                    raise ValueError("Conflicting legacy and risk order caps")
+            risk["absolute_order_hard_cap_tmn"] = old
+            value["risk"] = risk
+            value["max_order_tmn"] = old
+        return value
+
     trading: SpotPolicy = SpotPolicy()
     enabled: bool = False
+    account_type: Literal["MAIN_SPOT", "CREDIT_SPOT"] = "MAIN_SPOT"
+    sub_account_client_id: str | None = Field(
+        default=None, pattern=r"^[A-Za-z0-9_-]{1,200}$", repr=False
+    )
+    ai: HybridRuntimeConfig = HybridRuntimeConfig()
     account_id: str = Field(min_length=1)
     approved: tuple[str, ...] = Field(min_length=1)
     markets: tuple[MarketConstraints, ...] = Field(min_length=1)
     capital_tmn: PositiveAmount = Decimal("5000000")
-    max_order_tmn: PositiveAmount
-    deadline: datetime
-    liquidation_seconds: int = Field(default=300, ge=1)
+    max_order_tmn: PositiveAmount | None = Decimal("500000")
     max_age_seconds: int = Field(default=10, ge=1, le=30)
     max_fee_rate: Amount = Field(default=Decimal("0.005"), lt=1)
     max_depth_fraction: PositiveAmount = Field(default=Decimal("0.05"), le=1)
@@ -45,6 +68,10 @@ class LiveConfig(DomainModel):
 
     @model_validator(mode="after")
     def valid(self) -> Self:
+        if (self.account_type == "CREDIT_SPOT") != (self.sub_account_client_id is not None):
+            raise ValueError("Credit spot requires an explicit selector; main spot forbids it")
+        if self.force_final_liquidation and self.deadline is None:
+            raise ValueError("Live competition liquidation requires an explicit deadline")
         import json
         from importlib.resources import files
 
@@ -57,7 +84,9 @@ class LiveConfig(DomainModel):
             raise ValueError("Duplicate or excluded approved market")
         if {m.symbol for m in self.markets} != set(self.approved):
             raise ValueError("Explicit market constraints required for every approved market")
-        if len(self.markets) != len(self.approved) or self.max_order_tmn > self.capital_tmn:
+        if len(self.markets) != len(self.approved) or (
+            self.max_order_tmn is not None and self.max_order_tmn > self.capital_tmn
+        ):
             raise ValueError("Invalid market list or budget")
         # Protected initial deployment uses direct Toman settlement only. Do not guess FX routing.
         if any(m.quote != "TMN" for m in self.markets):
@@ -76,7 +105,12 @@ class AccountAuthorization(DomainModel):
 
     config_id: str
     account_id: str
-    account_type: Literal["MAIN_SPOT"]
+    account_type: Literal["MAIN_SPOT", "CREDIT_SPOT"]
+    sub_account_client_id: str | None = Field(
+        default=None, pattern=r"^[A-Za-z0-9_-]{1,200}$", repr=False
+    )
+    key_scope_review_reference: str | None = None
+    credit_routing_review_reference: str | None = None
     credential_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
     evidence_reference: str = Field(min_length=1)
     spot_read: bool
@@ -89,6 +123,17 @@ class AccountAuthorization(DomainModel):
 
     @model_validator(mode="after")
     def interval(self) -> Self:
+        if self.account_type == "CREDIT_SPOT":
+            if (
+                not self.sub_account_client_id
+                or not self.key_scope_review_reference
+                or not self.credit_routing_review_reference
+            ):
+                raise ValueError(
+                    "Independent credit key-scope and routing review references required"
+                )
+        elif self.sub_account_client_id is not None:
+            raise ValueError("Main spot forbids sub-account context")
         if self.expires_at <= self.valid_from:
             raise ValueError("Invalid authorization validity")
         return self

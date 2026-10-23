@@ -208,6 +208,7 @@ def fixture(tmp_path, **config_changes):
 async def prepare(adapter, snapshot):
     await adapter.bootstrap()
     await adapter.recover((snapshot,))
+    adapter.resume_after_reconciliation()
     portfolio = adapter.store.portfolio()
     signal = MomentumBreakout(
         adapter.config.research,
@@ -540,7 +541,8 @@ def test_http_contract_auth_redaction_no_retry_and_no_unsafe_paths():
             assert len(seen) == 1
             await client.cancel(intent)
             assert seen[-1].method == "DELETE"
-            assert seen[-1].url.params["clientOrderId"] == intent.client_id
+            assert json.loads(seen[-1].content)["clientOrderId"] == intent.client_id
+            assert "clientOrderId" not in seen[-1].url.params
             with pytest.raises(Blocked, match="ENDPOINT_BLOCKED"):
                 await client._request("POST", "/v1/account/crypto-withdrawal")
             with pytest.raises(Blocked, match="INVALID_CLIENT_ID"):
@@ -792,6 +794,8 @@ def test_realistic_processing_delay_aligns_decision_cut_without_refreshing_book_
         a, e, store, snapshot, clock, _ = fixture(tmp_path)
         try:
             await a.bootstrap()
+            await a.recover((snapshot,))
+            a.resume_after_reconciliation()
             clock.at += timedelta(seconds=2)
             proposals = await a.strategy_cycle((snapshot,))
             assert len(proposals) == 1 and e.submissions == 0

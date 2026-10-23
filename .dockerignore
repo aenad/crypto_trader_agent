@@ -1,6 +1,8 @@
 *
 !Dockerfile
 !Dockerfile.marketdata
+!Dockerfile.shadow
+!Dockerfile.shadow-ai
 !Dockerfile.dashboard-api
 !Dockerfile.dashboard-web
 !package.json
@@ -15,6 +17,8 @@
 !src/dashboard-main.tsx
 !config/
 !config/markets.example.json
+!config/shadow.deploy.json
+!config/shadow-ai.deploy.json
 !pyproject.toml
 !src/
 !src/quantpilot/

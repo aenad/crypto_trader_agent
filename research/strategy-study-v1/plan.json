@@ -1,0 +1,55 @@
+{
+  "study": "wallex-momentum-cost-study-v1",
+  "created_before_variant_results": true,
+  "symbol": "BTC/TMN",
+  "source_chunks": "data/backtest-long/chunks",
+  "requested_start": "2026-09-23T17:00:00+00:00",
+  "requested_end": "2026-10-23T17:00:00+00:00",
+  "baseline_input": "data/backtest-long/input.json",
+  "baseline_report": "data/trading-diagnostics/historical-baseline/report.json",
+  "prior_metadata": "data/readiness/account-market-constraints.json",
+  "periods": {
+    "train": ["2026-09-23T17:00:00+00:00", "2026-10-06T00:00:00+00:00"],
+    "validation": ["2026-10-06T00:00:00+00:00", "2026-10-12T22:45:00+00:00"],
+    "walk_1": ["2026-09-29T00:00:00+00:00", "2026-10-02T00:00:00+00:00"],
+    "walk_2": ["2026-10-02T00:00:00+00:00", "2026-10-06T00:00:00+00:00"],
+    "final": ["2026-10-20T00:00:00+00:00", "2026-10-23T17:00:00+00:00"]
+  },
+  "variants": {
+    "A_baseline": {},
+    "B_target8": {"target_atr": "8"},
+    "C_confirmed_target8": {"target_atr": "8", "min_adx": "25", "min_relative_volume": "1.5"}
+  },
+  "rationale": {
+    "B_target8": "Hold entry/stop/risk rules fixed; test a larger gross target because 3 ATR reward is insufficient after costs. Larger target reduces hit probability, so outcomes must be measured.",
+    "C_confirmed_target8": "Require stronger ADX and relative volume to test false-breakout filtering. Filters are strengthened, not removed.",
+    "D": "No alternative family: one market and limited disjoint windows do not justify another search."
+  },
+  "scenarios": {
+    "taker": {"fee_source": "observed_taker", "slippage": "0.001", "half_spread": "0.0005", "volume_participation": "0.01"},
+    "maker_fee_bound": {"fee_source": "observed_maker", "slippage": "0.001", "half_spread": "0.0005", "volume_participation": "0.01", "conditional_fee_bound_only": true},
+    "adverse": {"fee_source": "stress", "fee": "0.005", "slippage": "0.002", "half_spread": "0.001", "volume_participation": "0.005"}
+  },
+  "parameter_sensitivity": {"B_target7": {"target_atr": "7"}, "B_target9": {"target_atr": "9"}},
+  "selection": {
+    "data": "train and validation only, taker scenario",
+    "minimum_train_trades": 20,
+    "minimum_validation_trades": 10,
+    "minimum_test_trades": 30,
+    "maximum_drawdown_pct": "5",
+    "requires_positive_train_and_validation_return": true,
+    "ranking": "validation net return descending; train net return descending; variant name ascending",
+    "fallback": "A_baseline if no candidate passes; no winner declared",
+    "final_rule": "Freeze selection before any final-period simulation. Evaluate selected configuration once under taker costs; baseline benchmark once if distinct. No retuning on test.",
+    "multiple_testing": "Three prespecified candidates, two one-dimensional neighbors, two cost bounds. No grid search or significance claim."
+  },
+  "accounting": "Independent 5,000,000 TMN accounts per contiguous segment and window; continuous mark-to-market, no fabricated terminal liquidation. Segment results are not compounded or stitched across gaps.",
+  "limitations": [
+    "Retrospective design informed by earlier baseline and 15m/1h trial; earlier periods are not blind.",
+    "Final-period OHLC exists in cache, but variant outcomes are not inspected during selection.",
+    "No historical books or fee schedule; fee observations are account-context scenarios.",
+    "All fills are simulated by existing engine; maker execution/queue probability is not modeled."
+  ],
+  "live_enabled": false,
+  "exchange_mutations": 0
+}

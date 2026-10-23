@@ -9,11 +9,12 @@ from pydantic import Field, model_validator
 from quantpilot.backtest.config import SimulationParameters
 from quantpilot.config import stable_id
 from quantpilot.models import DomainModel, LiquiditySnapshot, MarketConstraints, MarketSnapshot
+from quantpilot.profiles import ProfileConfig
 from quantpilot.spot import SpotPolicy
 from quantpilot.trading.config import ResearchParameters, RiskParameters
 
 
-class ShadowConfig(DomainModel):
+class ShadowConfig(ProfileConfig):
     trading: SpotPolicy = SpotPolicy()
     mode: Literal["SHADOW"] = "SHADOW"
     approved: tuple[str, ...] = Field(min_length=1, max_length=10)
@@ -31,12 +32,17 @@ class ShadowConfig(DomainModel):
     public_transport: Literal["REST", "MCP"] = "REST"
     poll_seconds: int = Field(default=15, ge=1, le=300)
     freshness_seconds: int = Field(default=20, ge=1, le=60)
-    deadline: datetime | None = None
-    liquidation_seconds: int = Field(default=300, ge=1)
     health_port: int = Field(default=8766, ge=0, le=65535)
 
     @model_validator(mode="after")
     def consistent(self) -> Self:
+        if self.force_final_liquidation and self.deadline is None:
+            raise ValueError("Shadow competition liquidation requires an explicit deadline")
+        if (
+            self.simulation.deadline is not None
+            or self.simulation.operating_profile != "CONTINUOUS"
+        ):
+            raise ValueError("Configure the operating schedule only on ShadowConfig")
         if (
             len(set(self.approved)) != len(self.approved)
             or {m.symbol for m in self.markets} != set(self.approved)

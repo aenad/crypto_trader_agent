@@ -1,0 +1,32 @@
+services:
+  shadow:
+    build:
+      context: .
+      dockerfile: Dockerfile.shadow
+    restart: unless-stopped
+    init: true
+    stop_signal: SIGINT
+    stop_grace_period: 150s
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    environment:
+      PYTHONUNBUFFERED: "1"
+      PYTHONDONTWRITEBYTECODE: "1"
+      QUANTPILOT_LIVE_EXECUTION_ENABLED: "false"
+    volumes:
+      - shadow-state:/app/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8766/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      start_period: 180s
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+volumes:
+  shadow-state:

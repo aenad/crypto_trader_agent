@@ -8,9 +8,8 @@ from typing import Mapping, Self
 
 from pydantic import model_validator
 
+from quantpilot.profiles import ProfileConfig
 from quantpilot.spot import SpotPolicy
-
-from .models import DomainModel
 
 
 class ExecutionMode(str, Enum):
@@ -24,7 +23,7 @@ def stable_id(value: object) -> str:
     return hashlib.sha256(canonical.encode()).hexdigest()
 
 
-class EngineConfig(DomainModel):
+class EngineConfig(ProfileConfig):
     trading: SpotPolicy = SpotPolicy()
     mode: ExecutionMode = ExecutionMode.SHADOW
     strategy_version: str = "phase1-placeholder"
@@ -48,6 +47,7 @@ class EngineConfig(DomainModel):
         if raw not in ("true", "false"):
             raise ValueError("QUANTPILOT_LIVE_EXECUTION_ENABLED must be true or false")
         return cls(
+            operating_profile=env.get("QUANTPILOT_OPERATING_PROFILE", "CONTINUOUS").upper(),
             mode=ExecutionMode(env.get("QUANTPILOT_MODE", "SHADOW").upper()),
             live_execution_enabled=raw == "true",
         )

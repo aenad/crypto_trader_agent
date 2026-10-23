@@ -1,6 +1,5 @@
 """Virtual orders only. No exchange adapter, HTTP method or MCP session exists here."""
 
-from datetime import timedelta
 from decimal import ROUND_CEILING, ROUND_FLOOR, Context, Decimal, localcontext
 
 from quantpilot.backtest.execution import Pending
@@ -47,14 +46,8 @@ class ShadowExecutionProvider:
                 or intent.order_type != "MARKET"
             ):
                 raise PermissionError("ONLY_APPROVED_VIRTUAL_MARKET_ORDERS_ALLOWED")
-            deadline = self.config.deadline
-            if deadline is not None and (
-                self.clock.now() >= deadline
-                or (
-                    intent.side == "BUY"
-                    and self.clock.now()
-                    >= deadline - timedelta(seconds=self.config.liquidation_seconds)
-                )
+            if self.config.expired(self.clock.now()) or (
+                intent.side == "BUY" and not self.config.entries_allowed(self.clock.now())
             ):
                 raise ValueError("COMPETITION_ENTRY_OR_ORDER_DEADLINE")
             atr, price, fx = self.plans.pop(intent.client_id)

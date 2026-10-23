@@ -1,0 +1,7 @@
+{
+  "symbol": "BTCTMN",
+  "side": "BUY",
+  "type": "LIMIT",
+  "price": "10000000000",
+  "quantity": "0.00001"
+}

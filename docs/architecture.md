@@ -1,5 +1,33 @@
 # Architecture and gap analysis
 
+## Continuous operation correction
+
+Execution transport (BACKTEST/SHADOW/LIVE) and operating profile
+(CONTINUOUS/COMPETITION) are independent. `profiles.ProfileConfig` supplies the
+shared timing policy to each existing configuration, without a second strategy
+or engine. CONTINUOUS has no deadline and no terminal sell. COMPETITION opts
+into start/cutoff/deadline and optional liquidation. Old configs containing a
+deadline infer competition behavior; explicit continuous timing is rejected.
+
+`trading.sizing.AdaptivePositionSizer` contains the time-independent quantity
+kernel. The existing deterministic Risk Engine supplies fee-aware loss budget,
+free funds, reserved risk/exposure, volatility-derived stop distance and actual
+depth. Equity percentage and optional absolute caps constrain the result;
+existing regime eligibility and AI vetoes remain unchanged. No unvalidated AI
+confidence multiplier increases size. All paths retain the common Spot guard.
+
+Protected execution journals lifecycle controls alongside existing durable orders
+and portfolio state. Restart resets lifecycle to STARTING, never auto-resumes.
+Explicit resume requires fresh reconciliation, known orders, authorization and
+unlatched risk/kill checks. Stop-new-entries permits reductions; pause blocks
+ordinary submission; graceful close releases resources without liquidation.
+Existing SHADOW runner remains an unbounded public-data polling loop unless
+explicitly stopped, with its existing checkpoint recovery/reconnect behavior.
+
+This is a configuration/core migration, not live deployment certification.
+Authorization still expires; continuous operation must stop submitting until
+authorization is renewed. Credit LIVE support is not enabled by this change.
+
 Phase 8 update: `quantpilot.dashboard` projects catalog-approved backtest reports,
 consistent read-only SHADOW checkpoints/exports, recorded AI/replay evidence and
 operator-provided LIVE audit exports. FastAPI exposes only read endpoints; no

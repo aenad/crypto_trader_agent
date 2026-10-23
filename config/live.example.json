@@ -15,6 +15,8 @@
   }],
   "capital_tmn": "5000000",
   "max_order_tmn": "500000",
-  "deadline": "2026-10-26T10:00:00Z",
+  "operating_profile": "CONTINUOUS",
+  "deadline": null,
+  "force_final_liquidation": false,
   "liquidation_seconds": 300
 }

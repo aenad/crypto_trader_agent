@@ -3,13 +3,13 @@ from decimal import Decimal
 from pydantic import Field
 
 from quantpilot.config import stable_id
-from quantpilot.models import Amount, DomainModel, PositiveAmount
+from quantpilot.models import Amount, PositiveAmount
+from quantpilot.profiles import ProfileConfig
 from quantpilot.spot import SpotPolicy
 
 
-class SimulationParameters(DomainModel):
+class SimulationParameters(ProfileConfig):
     trading: SpotPolicy = SpotPolicy()
-    liquidation_seconds: int = Field(default=300, ge=1)
     initial_capital_tmn: PositiveAmount = Decimal("5000000")
     entry_fee: Amount = Field(default=Decimal("0.001"), le=Decimal("0.1"))
     exit_fee: Amount = Field(default=Decimal("0.001"), le=Decimal("0.1"))

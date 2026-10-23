@@ -115,6 +115,16 @@ LightGBM artifact and recorded analyst responses. Real analyst calls need their 
 explicit provider configuration; never give the analyst Wallex credentials or order tools.
 AI benefit is not established by the synthetic demo.
 
+Export decision counts and rejection reasons from an existing SHADOW journal:
+
+```powershell
+.venv\Scripts\python.exe -m quantpilot.diagnostics --shadow-db data/dashboard/shadow/session.sqlite --output data/dashboard/decision-diagnostics.json
+```
+
+This command is read-only and makes no exchange calls. See the
+[trading blocker investigation](docs/TRADING_BLOCKER_REPORT.md) for historical,
+public-feed and synthetic execution evidence and the limits of each result.
+
 The SHADOW CLI now reads its five dedicated LLM settings from `.env`; process
 environment takes precedence, followed by `.env`, then JSON. Real calls still
 require `--allow-llm-network` and a hybrid JSON configuration. See

@@ -129,7 +129,17 @@ class WallexSpotREST:
         *,
         transport: httpx.AsyncBaseTransport | None = None,
         authorize_mutation: Callable[[str, str], None] | None = None,
+        sub_account_client_id: SecretStr | None = None,
     ):
+        from .settings import WallexConnectionSettings
+
+        connection = WallexConnectionSettings(
+            api_key=key, sub_account_client_id=sub_account_client_id or SecretStr("")
+        )
+        self._headers = connection.private_headers(
+            sub_account_context=sub_account_client_id is not None
+        )
+        self._selector = sub_account_client_id
         self._key = key
         self._authorize_mutation = authorize_mutation
         self._client = httpx.AsyncClient(
@@ -159,6 +169,8 @@ class WallexSpotREST:
                 and path
                 in {
                     "/v1/account/balances",
+                    "/v1/account/balances-detail",
+                    "/sub-accounts",
                     "/v1/account/fee",
                     "/v1/account/openOrders",
                     "/v1/markets",
@@ -181,7 +193,7 @@ class WallexSpotREST:
                     identity = (
                         (payload or {}).get("client_id", "")
                         if method == "POST"
-                        else str((params or {}).get("clientOrderId", ""))
+                        else str((payload or {}).get("clientOrderId", ""))
                     )
                     self._authorize_mutation(method, identity)
                 self._client.cookies.clear()
@@ -190,7 +202,7 @@ class WallexSpotREST:
                     "https://api.wallex.ir" + path,
                     json=payload,
                     params=params,
-                    headers={"X-API-Key": self._key.get_secret_value()},
+                    headers=self._headers,
                 )
                 if response.status_code == 429:
                     raise Blocked("RATE_LIMITED")
@@ -201,6 +213,8 @@ class WallexSpotREST:
                 if not isinstance(data, dict) or data.get("success") is not True:
                     raise Blocked("EXCHANGE_REQUEST_UNRELIABLE")
                 result = data["result"]
+                if path == "/sub-accounts" and isinstance(result, list):
+                    return {"accounts": result}
                 if not isinstance(result, dict):
                     raise Blocked("INVALID_EXCHANGE_RESULT")
                 return result
@@ -226,6 +240,19 @@ class WallexSpotREST:
         )
         return parse_order(raw, intent)
 
+    async def verify_account_context(self, selector: str) -> None:
+        if self._selector is None or self._selector.get_secret_value() != selector:
+            raise Blocked("CREDIT_SELECTOR_MISMATCH")
+        rows = (await self._request("GET", "/sub-accounts"))["accounts"]
+        matches = [r for r in rows if r.get("clientId") == selector]
+        if (
+            len(matches) != 1
+            or matches[0].get("isActive") is not True
+            or matches[0].get("isSuspend") is not False
+            or matches[0].get("type") != "prop"
+        ):
+            raise Blocked("CREDIT_ACCOUNT_NOT_ACTIVE_OR_UNVERIFIED")
+
     async def lookup(self, intent: OrderIntent) -> ExchangeOrder:
         if not ID.fullmatch(intent.client_id):
             raise Blocked("INVALID_CLIENT_ID")
@@ -243,12 +270,27 @@ class WallexSpotREST:
         await self._request(
             "DELETE",
             "/v1/account/orders",
-            params={
+            payload={
                 "clientOrderId": intent.client_id,
             },
         )
 
     async def balances(self, semantics: str) -> tuple[AssetBalance, ...]:
+        if self._selector is not None:
+            if semantics != "FREE":
+                raise Blocked("CREDIT_AVAILABLE_BALANCE_SEMANTICS_REQUIRED")
+            raw = await self._request("GET", "/v1/account/balances-detail")
+            balances = []
+            for asset, row in raw.items():
+                available, locked, total = (
+                    decimal(row["available"]),
+                    decimal(row["freeze"]),
+                    decimal(row["total"]),
+                )
+                if available + locked != total:
+                    raise Blocked("CREDIT_BALANCE_TOTAL_MISMATCH")
+                balances.append(AssetBalance(currency=asset, free=available, reserved=locked))
+            return tuple(balances)
         raw = (await self._request("GET", "/v1/account/balances"))["balances"]
         if semantics not in {"FREE", "TOTAL"}:
             raise Blocked("UNVERIFIED_BALANCE_SEMANTICS")

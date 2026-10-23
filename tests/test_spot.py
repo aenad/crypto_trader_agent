@@ -16,6 +16,7 @@ from quantpilot.backtest.replay import HistoricalReplay
 from quantpilot.live.domain import AccountAuthorization
 from quantpilot.live.settlement import settlement_report
 from quantpilot.models import AssetBalance, OrderIntent, PortfolioState
+from quantpilot.profiles import OperatingProfile
 from quantpilot.shadow.ai import ShadowAI
 from quantpilot.shadow.engine import ShadowEngine
 from quantpilot.shadow.feed import WallClock
@@ -170,7 +171,12 @@ def test_shadow_deadline_queues_then_confirms_sale_and_replays(tmp_path):
     async def scenario():
         cfg, first = setup_context()
         cfg = cfg.model_copy(
-            update={"deadline": first.as_of + timedelta(seconds=40), "liquidation_seconds": 20}
+            update={
+                "operating_profile": OperatingProfile.COMPETITION,
+                "force_final_liquidation": True,
+                "deadline": first.as_of + timedelta(seconds=40),
+                "liquidation_seconds": 20,
+            }
         )
         live = session(tmp_path, cfg)
         await live.process(first)
@@ -199,7 +205,12 @@ def test_shadow_deadline_preserves_unfilled_crypto_and_cancels_orders(tmp_path):
     async def scenario():
         cfg, first = setup_context()
         cfg = cfg.model_copy(
-            update={"deadline": first.as_of + timedelta(seconds=40), "liquidation_seconds": 20}
+            update={
+                "operating_profile": OperatingProfile.COMPETITION,
+                "force_final_liquidation": True,
+                "deadline": first.as_of + timedelta(seconds=40),
+                "liquidation_seconds": 20,
+            }
         )
         engine = ShadowEngine(cfg, ShadowAI(cfg, tmp_path / "responses", WallClock()))
         await engine.apply(first)

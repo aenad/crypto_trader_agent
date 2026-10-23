@@ -18,5 +18,6 @@
 
 - Permanent trading policy: SPOT / LONG_ONLY only; no margin, leverage, shorts, borrowing, derivatives or withdrawals. SELL reduces freely available owned assets; BUY needs free quote funds including fees. Never count reserved balances as spendable.
 - Reuse `quantpilot.spot.validate_spot_order` at risk and execution boundaries. AI only vetoes entries and never receives execution tools. TMN is Toman accounting, never an implicit IRR alias.
-- Competition defaults: 5,000,000 TMN, zero crypto, three trading days, final TMN settlement. Configure absolute deadlines explicitly; retain unsold/dust assets and unresolved orders in reports. A conversion mark is not an executed conversion.
+- Execution mode and operating profile are independent. Default CONTINUOUS has no calendar liquidation; COMPETITION explicitly opts into deadline/settlement policy. Never include remaining competition time in base position sizing. Stop/shutdown does not imply liquidation.
+- Retain unsold/dust assets and unresolved orders in reports. A conversion mark is not an executed conversion. Preserve the legacy 500,000 TMN hard cap until explicitly reviewed configuration changes it; AI cannot modify risk constraints.
 - Keep source/config/prompt/model identities intact. Changed spot policy invalidates old pinned journals/artifacts; reproduce them with their original source or perform reviewed migration/revalidation, never rewrite hashes to bypass checks.

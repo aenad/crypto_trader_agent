@@ -34,7 +34,7 @@ class LLMProvider(Protocol):
 
 
 class JsonGatewayProvider:
-    """Explicit private gateway contract, NOT a guessed vendor API.
+    """Explicit private gateway contract, plus documented BoxAPI Chat Completions.
 
     POST {model,request,response_schema}; response {output: <JSON string>}.
     Configure an approved gateway implementing this contract. No env loading.
@@ -59,6 +59,14 @@ class JsonGatewayProvider:
             token,
             timeout,
         )
+        # BoxAPI documents this base URL and its Chat Completions endpoint.
+        # Preserve the existing private JSON-gateway contract for other providers.
+        self.boxapi_chat = url.hostname == "ai.boxapi.ir" and url.path.rstrip("/") in {
+            "/ai/v1",
+            "/ai/v1/chat/completions",
+        }
+        if self.boxapi_chat:
+            self.endpoint = "https://ai.boxapi.ir/ai/v1/chat/completions"
 
     @property
     def model_id(self) -> str:
@@ -69,18 +77,50 @@ class JsonGatewayProvider:
 
         # No redirects (credential forwarding) and no ambient proxy credentials.
         try:
+            payload: dict[str, Any] = {
+                "model": self.model_id,
+                "request": request,
+                "response_schema": schema,
+            }
+            if self.boxapi_chat:
+                payload = {
+                    "model": self.model_id,
+                    "messages": [
+                        {
+                            "role": "system",
+                            "content": (
+                                "Return exactly one JSON object, without Markdown or explanations, "
+                                "matching this JSON schema: " + json.dumps(schema)
+                            ),
+                        },
+                        {"role": "user", "content": json.dumps(request)},
+                    ],
+                    "stream": False,
+                }
             async with httpx.AsyncClient(
                 timeout=self.timeout, follow_redirects=False, trust_env=False
             ) as client:
                 response = await client.post(
                     self.endpoint,
                     headers={"Authorization": f"Bearer {self._token}"},
-                    json={"model": self.model_id, "request": request, "response_schema": schema},
+                    json=payload,
                 )
                 response.raise_for_status()
                 if len(response.content) > 32768:
                     raise ValueError("Oversize gateway output")
                 body = response.json()
+                if self.boxapi_chat:
+                    choices = body.get("choices") if isinstance(body, dict) else None
+                    if not isinstance(choices, list) or len(choices) != 1:
+                        raise ValueError("Invalid chat completion")
+                    choice = choices[0]
+                    message = choice.get("message", {})
+                    if choice.get("finish_reason") != "stop" or message.get("tool_calls"):
+                        raise ValueError("Incomplete or tool-calling completion")
+                    content = message.get("content")
+                    if not isinstance(content, str):
+                        raise ValueError("Text completion required")
+                    return content
                 if not isinstance(body, dict) or not isinstance(body.get("output"), str):
                     raise ValueError("Invalid gateway response")
                 return str(body["output"])

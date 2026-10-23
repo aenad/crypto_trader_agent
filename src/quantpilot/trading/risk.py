@@ -10,6 +10,7 @@ from quantpilot.spot import validate_spot_order
 
 from .config import ResearchParameters, RiskParameters
 from .features import FeatureEngine, liquidity_features
+from .sizing import AdaptivePositionSizer
 from .strategy import MarketEligibilityFilter, MomentumBreakout, validate_series
 
 D = Decimal
@@ -239,13 +240,26 @@ class DeterministicRiskEngine:
             return reject("EXPOSURE_OR_RISK_BUDGET_EXHAUSTED")
         cash = free.get(market.quote, D(0)) / (1 + market.taker_fee_rate)
         notional_cap = min(
+            equity * p.max_order_equity_fraction / (rate * (1 + market.taker_fee_rate)),
+            (
+                p.absolute_order_hard_cap_tmn / (rate * (1 + market.taker_fee_rate))
+                if p.absolute_order_hard_cap_tmn is not None
+                else equity / rate
+            ),
             remaining / rate,
             equity * p.max_asset_fraction / rate,
             cash,
             liquid.ask_depth_quote * p.max_depth_participation,
         )
         quantity = rounded(
-            min(notional_cap / price, risk_budget / (rate * loss_per_unit)), market.quantity_step
+            AdaptivePositionSizer.quantity(
+                price=price,
+                loss_per_unit=loss_per_unit,
+                risk_budget=risk_budget,
+                quote_to_tmn=rate,
+                notional_cap=notional_cap,
+            ),
+            market.quantity_step,
         )
         if quantity < market.minimum_quantity or quantity * price < market.minimum_notional:
             return reject("BELOW_MINIMUM_SIZE_OR_LIQUIDITY")

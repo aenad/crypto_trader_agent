@@ -11,8 +11,9 @@ class MCPUnavailable(RuntimeError):
 
 
 class WallexMCP:
-    def __init__(self, settings: Settings):
+    def __init__(self, settings: Settings, *, sub_account_context: bool = False):
         self.settings = settings
+        self.sub_account_context = sub_account_context
 
     def http_headers(self) -> dict[str, str]:
         headers = {}
@@ -21,6 +22,11 @@ class WallexMCP:
         api_key = self.settings.wallex_api_key.get_secret_value()
         if api_key:
             headers["X-API-Key"] = api_key
+        if self.sub_account_context:
+            identity = self.settings.wallex_sub_account_client_id.get_secret_value()
+            if not api_key or not identity:
+                raise MCPUnavailable("Key and sub-account ID required for explicit read context")
+            headers["sub-account-client-id"] = identity
         return headers
 
     @asynccontextmanager

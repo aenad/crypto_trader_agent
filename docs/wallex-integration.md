@@ -1,5 +1,9 @@
 # Wallex integration: observed contracts and unverified capabilities
 
+Spot order Swagger and manual PowerShell request reference:
+[Wallex spot orders](WALLEX_SPOT_ORDERS.md). This documentation uses the previously
+captured official schema; no order was submitted and LIVE remains disabled.
+
 Phase 7 adds a protected private **REST** adapter, separately authorized and isolated
 from public MCP/SHADOW and the LLM. See [execution contracts and limitations](phase7.md)
 and [documentation evidence](evidence/wallex-live-contracts.json). Private account/order

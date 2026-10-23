@@ -22,6 +22,28 @@ cannot target Wallex. It must implement the existing provider contract:
 `POST {model, request, response_schema}` returning `{output: <JSON string>}`.
 This is not automatically compatible with a vendor's Chat Completions endpoint.
 
+### BoxAPI support
+
+The documented BoxAPI base `https://ai.boxapi.ir/ai/v1` and full
+`https://ai.boxapi.ir/ai/v1/chat/completions` now explicitly select the BoxAPI
+Chat Completions wire format. This exception is limited to that exact hostname
+and documented paths; other gateways retain the existing private JSON contract.
+See https://boxapi.ir/docs/ai/ . The adapter sends model/messages/stream=false,
+extracts the sole completed text choice and rejects truncation, tool calls and
+nontext output. Analyst schema/context/time validation remains local and mandatory.
+No exchange token/account state is sent to this provider.
+
+Sanitized one-call connection check (may incur provider cost):
+
+```powershell
+.venv\Scripts\python.exe -m quantpilot.ai.preflight --call-llm --report data/readiness/boxapi-connection.json
+```
+
+`SCHEMA_VERIFIED` means this small connection request returned valid JSON. It does
+not imply that historical analyst performance, every prompt or future calls work.
+For artifact verification add `--model PATH_TO_FROZEN_MODEL`. Failures exit nonzero;
+reports contain no tokens, provider error bodies or private URLs.
+
 The SHADOW JSON must still specify `ai_mode: QUANT_ML_LLM`, a compatible frozen
 LightGBM `model_path`, market approvals and risk settings. Environment variables
 do not change mode or enable network access. Actual model calls additionally need

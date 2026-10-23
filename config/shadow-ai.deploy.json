@@ -1,0 +1,20 @@
+{
+  "mode": "SHADOW",
+  "operating_profile": "CONTINUOUS",
+  "approved": ["BTC/TMN"],
+  "markets": [{
+    "symbol": "BTC/TMN", "quote": "TMN", "spot_enabled": true, "account_enabled": true,
+    "quantity_step": "0.000001", "price_tick": "1", "minimum_quantity": "0.000001",
+    "minimum_notional": "100000", "taker_fee_rate": "0.001"
+  }],
+  "ai_mode": "QUANT_ML_LLM",
+  "model_path": "/models/baseline",
+  "analyst_model_id": "gpt-5.6-luna",
+  "llm_gateway": "https://ai.boxapi.ir/ai/v1",
+  "llm_timeout_seconds": 10,
+  "llm_call_budget": 100,
+  "public_transport": "REST",
+  "poll_seconds": 15,
+  "freshness_seconds": 20,
+  "health_port": 8766
+}

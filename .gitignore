@@ -1,4 +1,5 @@
 .env
+config/llm.server.env
 .venv/
 .python-deps/
 __pycache__/
