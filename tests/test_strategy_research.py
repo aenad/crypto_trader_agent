@@ -7,8 +7,11 @@ from decimal import Decimal
 
 import pytest
 
+from quantpilot.ai.dataset import market_input
 from quantpilot.backtest.cli import demo_input
+from quantpilot.backtest.replay import HistoricalReplay
 from quantpilot.trading.config import ResearchParameters, RiskParameters
+from research.prepared_history import PreparedHistory
 from research.strategy_study import aggregate, load_minutes, make_input, select, summarize
 
 
@@ -130,3 +133,36 @@ def test_research_summary_uses_existing_engine_and_reports_no_trade_uncertainty(
     assert result["metrics"]["trade_count"] == 0
     assert result["pnl_distribution"]["mean"] is None
     assert result["pnl_distribution"]["values_tmn"] == []
+
+
+def test_prepared_history_exact_prefix_equivalence_and_future_isolation():
+    async def scenario():
+        raw = demo_input()
+        data, _, _, _ = market_input(raw)
+        cached = PreparedHistory(data)
+        times = [data.candles["BTC/TMN"][0].open_time]
+        times += [data.candles["BTC/TMN"][i].close_time for i in (0, 2, 100, 599, 660, 718)]
+        for now in times:
+            assert await cached.snapshot("BTC/TMN", now) == await data.snapshot("BTC/TMN", now)
+        for key in ("open", "high", "low", "close"):
+            raw["candles"]["BTC/TMN"][-1][key] = "999999999"
+        changed, _, _, _ = market_input(raw)
+        future_changed = PreparedHistory(changed)
+        now = times[-1]
+        assert await future_changed.snapshot("BTC/TMN", now) == await cached.snapshot(
+            "BTC/TMN", now
+        )
+
+    asyncio.run(scenario())
+
+
+def test_prepared_history_same_full_engine_decisions_fills_pnl_and_manifest():
+    async def scenario():
+        raw = demo_input()
+        data, risk, approved, fx = market_input(raw)
+        ordinary = await HistoricalReplay(data, risk, approved, fx).run()
+        prepared = await HistoricalReplay(PreparedHistory(data), risk, approved, fx).run()
+        assert ordinary == prepared
+        assert ordinary["metrics"]["fill_count"] > 0
+
+    asyncio.run(scenario())

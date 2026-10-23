@@ -25,10 +25,11 @@ from quantpilot.trading.config import ResearchParameters, RiskParameters
 from quantpilot.trading.features import FeatureEngine, liquidity_features
 from quantpilot.trading.risk import rounded
 from quantpilot.trading.timeframes import resample
+from research.prepared_history import PreparedHistory
 
 D = Decimal
 PLAN = Path("research/strategy-study-v1/plan.json")
-ROOT = Path("data/strategy-research-v1")
+ROOT = Path("data/strategy-research-v1-prepared")
 
 
 def read(path):
@@ -220,6 +221,7 @@ def prepare():
         "plan_id": stable_id(plan),
         "core_version": core_version(),
         "runner_sha256": digest(__file__),
+        "prepared_provider_sha256": digest("research/prepared_history.py"),
         "source_sha256": hashes,
         "baseline_sha256": {str(p): digest(p) for p in protected},
         "research": ResearchParameters.model_validate(baseline.get("research", {})).model_dump(
@@ -245,7 +247,11 @@ def prepare():
 
 def manifest():
     value = read(ROOT / "manifest.json")
-    if value["core_version"] != core_version() or value["runner_sha256"] != digest(__file__):
+    if (
+        value["core_version"] != core_version()
+        or value["runner_sha256"] != digest(__file__)
+        or value["prepared_provider_sha256"] != digest("research/prepared_history.py")
+    ):
         raise ValueError("Research source changed; preserve pinned study")
     if value["plan_id"] != stable_id(read(PLAN)):
         raise ValueError("Research plan changed")
@@ -345,6 +351,7 @@ async def run_window(m, variant_name, variant, period, scenario):
             continue
         raw = make_input(m, rows, variant, scenario)
         data, risk, approved, fx = market_input(raw)
+        data = PreparedHistory(data)
         report = await HistoricalReplay(data, risk, approved, fx, decision_start=actual_start).run()
         target = destination / info["segment"]
         if target.exists():
